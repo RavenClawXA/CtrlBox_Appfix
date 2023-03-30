@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Zxing_CaptureTheme" parent="Theme.AppCompat.Light.NoActionBar">
+    <item name="colorPrimary">@color/zxing_primary</item>
+    <item name="colorPrimaryDark">@color/zxing_primary_dark</item>
+    <item name="colorAccent">@color/zxing_accent</item>
+</style></resources>

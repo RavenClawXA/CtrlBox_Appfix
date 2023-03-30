@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">CtrlBox_App</string>
+    <string name="รายละเอียด">รายละเอีด</string>
+    <string name="BoxId">BoxId</string>
+    <string name="Vendor">Vendor</string>
+
+</resources>

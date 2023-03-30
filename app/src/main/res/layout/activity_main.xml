@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:id="@+id/scrollView8"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/DetailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginTop="28dp"
+                android:layout_marginEnd="170dp"
+                android:text="@string/รายละเอียด"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toStartOf="@+id/scrollView8"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/BoxIdTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="20dp"
+                android:text="@string/BoxId"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/DetailTextView" />
+
+                <TextView
+                android:id="@+id/TextBoxId"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="2dp"
+                android:layout_marginTop="5dp"
+                android:autofillHints="0"
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:minHeight="30dp"
+                android:text="00"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/BoxIdTextView"
+                app:layout_constraintTop_toBottomOf="@+id/Vendor"
+                tools:ignore="LabelFor" />
+
+            <TextView
+                android:id="@+id/Vendor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="@string/Vendor"
+                android:textSize="20sp"
+                app:layout_constraintStart_toStartOf="@+id/TextBoxId"
+                app:layout_constraintTop_toBottomOf="@+id/TextNameComp" />
+
+            <TextView
+                android:id="@+id/ViewVendor"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:text=""
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="@+id/Vendor"
+                app:layout_constraintTop_toBottomOf="@+id/ViewVendorName" />
+
+            <TextView
+                android:id="@+id/VendorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="6dp"
+                android:text="Vendor name"
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="@+id/ViewVendor"
+                app:layout_constraintTop_toBottomOf="@+id/ViewVendorName" />
+
+            <TextView
+                android:id="@+id/ViewVendorName"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="0dp"
+                android:layout_marginTop="12dp"
+                android:text=""
+                android:textSize="20dp"
+                app:layout_constraintStart_toStartOf="@+id/VendorName"
+                app:layout_constraintTop_toBottomOf="@+id/StateTextView" />
+
+            <TextView
+                android:id="@+id/TranDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Transaction date"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TranDateView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:ems="10"
+                android:inputType="date"
+                android:text="55-30-2566"
+                android:textSize="25dp" />
+
+            <TextView
+                android:id="@+id/Transaction"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Trasaction status"
+                android:textSize="20dp" />
+
+            <TextView
+                android:id="@+id/TrantypView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5sp"
+                android:text="Staus: "
+                android:textSize="20dp" />
+
+        </LinearLayout>
+
+    </ScrollView>
+
+    <Button
+        android:id="@+id/Recievebtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="รับเข้า"
+        android:translationX="-90dp"
+        android:translationY="250dp" />
+
+    <Button
+        android:id="@+id/Sendbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:text="ส่งออก"
+        android:translationX="15dp"
+        android:translationY="250dp" />
+    <Button
+        android:id="@+id/Backbtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:translationY="250dp"
+        android:translationX="120dp"
+        android:layout_centerInParent="true"
+        android:text="กลับ" />
+</RelativeLayout>
