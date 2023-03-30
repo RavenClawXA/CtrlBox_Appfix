@@ -28,7 +28,6 @@ public class ScanActivity extends AppCompatActivity
             integrator.initiateScan();
 
     }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode,@Nullable Intent data)
     {
@@ -40,9 +39,9 @@ public class ScanActivity extends AppCompatActivity
             } else {
                     String scannedData = result.getContents();
                 Intent intent = new Intent(ScanActivity.this, MainActivity.class);
-                intent.putExtra("activity_main",scannedData);
+                intent.putExtra("ScannedData",scannedData);
                 startActivity(intent);
-                finish();
+
             }
         }
         else {
