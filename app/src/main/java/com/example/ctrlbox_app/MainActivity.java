@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt((BoxId)),"Vendor,VendorName");
+            Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt((BoxId)),"Vendor,VendorName,Trandate");
             Toast.makeText(MainActivity.this, BoxId, Toast.LENGTH_SHORT).show();
             call.enqueue(new Callback<Datamodels>(){
                 @Override

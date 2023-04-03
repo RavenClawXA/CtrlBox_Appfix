@@ -41,6 +41,7 @@ public class ScanActivity extends AppCompatActivity
                 Intent intent = new Intent(ScanActivity.this, MainActivity.class);
                 intent.putExtra("ScannedData",scannedData);
                 startActivity(intent);
+                finish();
 
             }
         }
