@@ -2,9 +2,9 @@ package com.example.ctrlbox_app;
 
 public class Datamodels {
 
-    private int BoxId;
-    private String  Vendor;
-    private String VendorName;
+   final private int BoxId;
+    private  String  Vendor;
+    private  String VendorName;
     private Boolean Trantype ;
 
     public Datamodels(String BoxId, String Vendor, String VendorName/*boolean Trantype*/) {

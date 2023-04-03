@@ -19,6 +19,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
+    private  TextView boxid;
+    private TextView vendor;
+    private TextView vendorname;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,11 +29,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
 
-        String BoxId = getIntent().getStringExtra("ScannedData");
-        TextView boxid = findViewById(R.id.TextBoxId);
-        TextView vendor = findViewById(R.id.ViewVendor);
-        TextView vendorname = findViewById(R.id.ViewVendorName);
-        getDataId (BoxId,vendor.getText().toString(),vendorname.getText().toString());
+        String BoxId = (getIntent().getStringExtra("ScannedData"));
+
+        boxid = findViewById(R.id.TextBoxId);
+        vendor = findViewById(R.id.ViewVendor);
+        vendorname = findViewById(R.id.ViewVendorName);
         boxid.setText(BoxId);
 
 
@@ -52,24 +55,26 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+       getDataId(BoxId);
         }
 
-        private void getDataId (String BoxId, String Vendor, String VendorName){
+        private void getDataId (String BoxId){
 
             Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http//:localhost:5000/api/")
+                    .baseUrl("http://192.168.10.114:5000/api/")
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Datamodels thebox = new Datamodels(BoxId,Vendor,VendorName);
-            Call<Datamodels> call = retrofitAPI.getDataById(thebox);
+            Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt(BoxId),"Vendor,VendorName");
+            Toast.makeText(MainActivity.this, BoxId, Toast.LENGTH_SHORT).show();
             call.enqueue(new Callback<Datamodels>(){
                 @Override
                 public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-                        try {
-                            Toast.makeText(MainActivity.this, "Data", Toast.LENGTH_SHORT).show();
-                        }catch (Exception e){
-                            e.printStackTrace();
+                        if (response.isSuccessful()){
+
+                            Datamodels data = response.body();
+                            vendor.setText(data.getVendor());
+                            vendorname.setText(data.getVendorName());
                         }
                 }
 
@@ -80,11 +85,3 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 }
-
-
-
-
-
-
-
-

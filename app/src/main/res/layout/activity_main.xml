@@ -117,7 +117,6 @@
                 android:layout_marginTop="10dp"
                 android:ems="10"
                 android:inputType="date"
-                android:text="55-30-2566"
                 android:textSize="25dp" />
 
             <TextView
@@ -126,7 +125,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:text="Trasaction status"
-                android:textSize="20dp" />
+                android:textSize="20dp"
+                android:translationY="-15sp" />
 
             <TextView
                 android:id="@+id/TrantypView"
