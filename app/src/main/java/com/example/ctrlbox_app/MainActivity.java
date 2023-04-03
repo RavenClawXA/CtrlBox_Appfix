@@ -3,12 +3,15 @@ package com.example.ctrlbox_app;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.gson.GsonBuilder;
 
 import java.util.Date;
 
@@ -43,8 +46,6 @@ public class MainActivity extends AppCompatActivity {
         String currentDateString = dateFormat.format(currentDate);
         trandate.setText(currentDateString);
 
-
-
         Button bbtn =findViewById(R.id.Backbtn);
        bbtn.setOnClickListener(new View.OnClickListener()
         {
@@ -62,16 +63,17 @@ public class MainActivity extends AppCompatActivity {
 
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://192.168.10.114:5000/api/")
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(new NullOnEmptyConverterFactory())
+                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
                     .build();
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt(BoxId),"Vendor,VendorName");
+            Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt((BoxId)),"Vendor,VendorName");
             Toast.makeText(MainActivity.this, BoxId, Toast.LENGTH_SHORT).show();
             call.enqueue(new Callback<Datamodels>(){
                 @Override
                 public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
                         if (response.isSuccessful()){
-
+                            Log.d("MainActivity", "BoxId: " + BoxId);
                             Datamodels data = response.body();
                             vendor.setText(data.getVendor());
                             vendorname.setText(data.getVendorName());
@@ -80,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(Call<Datamodels> call, Throwable t) {
-                    t.getMessage();
+                    Log.d("MainActivity", "BoxId: " + BoxId);
+                    Toast.makeText(MainActivity.this, "Failed " + t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
         }
