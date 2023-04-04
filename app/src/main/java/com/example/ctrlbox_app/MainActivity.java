@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Date;
@@ -61,13 +62,19 @@ public class MainActivity extends AppCompatActivity {
 
         private void getDataId (String BoxId){
 
+
+            Gson gson = new GsonBuilder()
+                    .setLenient()
+                    .create();
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl("http://192.168.10.114:5000/api/")
                     .addConverterFactory(new NullOnEmptyConverterFactory())
-                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder().setLenient().create()))
+                    .addConverterFactory(GsonConverterFactory.create(gson))
                     .build();
+            Log.d("MainActivity", "logcess");
             RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
             Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt((BoxId)),"Vendor,VendorName,Trandate");
+            Log.d("MainActivity", "logcess"+call);
             Toast.makeText(MainActivity.this, BoxId, Toast.LENGTH_SHORT).show();
             call.enqueue(new Callback<Datamodels>(){
                 @Override
@@ -84,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 public void onFailure(Call<Datamodels> call, Throwable t) {
                     Log.d("MainActivity", "BoxId: " + BoxId);
                     Toast.makeText(MainActivity.this, "Failed " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                    vendorname.setText(t.getMessage());
                 }
             });
         }
