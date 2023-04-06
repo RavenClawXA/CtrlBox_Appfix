@@ -3,26 +3,28 @@ package com.example.ctrlbox_app;
 public class Datamodels {
 
 
-    final private int BoxId;
+    private String BoxId;
     private  String  Vendor;
     private  String VendorName;
-    private  String TranDate;
+    private  String Trandate;
     private Boolean Trantype ;
 
-    public Datamodels(String BoxId, String Vendor, String VendorName, String TranDate/*boolean Trantype*/) {
+    public Datamodels(String BoxId, String Vendor, String VendorName, String Trandate/*boolean Trantype*/) {
 
-        this.BoxId = Integer.parseInt(BoxId);
+        //String object =  "{\"BoxId\":\"1222\",\"Vendor\",\"VendorName\",\"Trandate\"}";
+        this.BoxId = BoxId;
         this.Vendor = Vendor;
         this.VendorName = VendorName;
         this.Trantype = Boolean.valueOf(Trantype);
-        this.TranDate = TranDate;
+        this.Trandate = Trandate;
     }
+
 
     public String getTranDate() {
-        return TranDate;
+        return Trandate;
     }
 
-    public int getBoxId() {
+    public String getBoxId() {
         return BoxId;
     }
 

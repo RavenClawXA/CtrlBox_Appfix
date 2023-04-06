@@ -3,18 +3,14 @@ package com.example.ctrlbox_app;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import java.util.Date;
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -23,21 +19,23 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private  TextView boxid;
+    private TextView boxid, status;
     private TextView vendor;
     private TextView vendorname;
+    private RetrofitAPI retrofitAPI;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        String BoxId = (getIntent().getStringExtra("ScannedData"));
-
         boxid = findViewById(R.id.TextBoxId);
         vendor = findViewById(R.id.ViewVendor);
         vendorname = findViewById(R.id.ViewVendorName);
+        vendorname = findViewById(R.id.ViewVendorName);
+        status = findViewById(R.id.TrantypView);
+
+        String BoxId = (getIntent().getStringExtra("ScannedData"));
         boxid.setText(BoxId);
 
 
@@ -47,9 +45,32 @@ public class MainActivity extends AppCompatActivity {
         String currentDateString = dateFormat.format(currentDate);
         trandate.setText(currentDateString);
 
-        Button bbtn =findViewById(R.id.Backbtn);
-       bbtn.setOnClickListener(new View.OnClickListener()
-        {
+        Button bbtn = findViewById(R.id.Backbtn);
+
+                Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+                retrofitAPI = retrofit.create(RetrofitAPI.class);
+                Call<List<Datamodels>> call = retrofitAPI.getPosts(BoxId);
+                call.enqueue(new Callback<List<Datamodels>>() {
+                    @Override
+                    public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+                        if (!response.isSuccessful()) {
+                            status.setText("Code " + response.code());
+                            return;
+                        }
+                        List<Datamodels> datamodels = response.body();
+                        for (Datamodels post : datamodels) {
+                            vendor.setText(post.getVendor());
+                            vendorname.setText(post.getVendorName());
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<List<Datamodels>> call, Throwable t) {
+                        status.setText(t.getMessage());
+                    }
+                });
+            bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ScanActivity.class);
@@ -57,42 +78,15 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-       getDataId(BoxId);
-        }
-
-        private void getDataId (String BoxId){
-
-
-            Gson gson = new GsonBuilder()
-                    .setLenient()
-                    .create();
-            Retrofit retrofit = new Retrofit.Builder()
-                    .baseUrl("http://192.168.10.114:5000/api/")
-                    .addConverterFactory(new NullOnEmptyConverterFactory())
-                    .addConverterFactory(GsonConverterFactory.create(gson))
-                    .build();
-            Log.d("MainActivity", "logcess");
-            RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-            Call<Datamodels> call = retrofitAPI.getDataById(Integer.parseInt((BoxId)),"Vendor,VendorName,Trandate");
-            Log.d("MainActivity", "logcess"+call);
-            Toast.makeText(MainActivity.this, BoxId, Toast.LENGTH_SHORT).show();
-            call.enqueue(new Callback<Datamodels>(){
-                @Override
-                public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-                        if (response.isSuccessful()){
-                            Log.d("MainActivity", "BoxId: " + BoxId);
-                            Datamodels data = response.body();
-                            vendor.setText(data.getVendor());
-                            vendorname.setText(data.getVendorName());
-                        }
-                }
-
-                @Override
-                public void onFailure(Call<Datamodels> call, Throwable t) {
-                    Log.d("MainActivity", "BoxId: " + BoxId);
-                    Toast.makeText(MainActivity.this, "Failed " + t.getMessage(), Toast.LENGTH_SHORT).show();
-                    vendorname.setText(t.getMessage());
-                }
-            });
-        }
+    }
 }
+
+
+
+
+
+
+
+
+
+
