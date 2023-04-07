@@ -11,5 +11,6 @@ public interface RetrofitAPI {
         @GET("CtrlBox_In/{id}")
         Call<List<Datamodels>> getPosts(@Path("id") String BoxId);
 
-
+        @GET("CtrlBox_In")
+        Call<List<Datamodels>>getAll();
 }
