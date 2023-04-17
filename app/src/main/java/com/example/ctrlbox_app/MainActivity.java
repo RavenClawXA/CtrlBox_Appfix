@@ -21,10 +21,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView boxid, status;
+    private TextView boxid, status, textView;
     private TextView vendor;
     private TextView vendorname;
     private RetrofitAPI retrofitAPI;
+    private Button btn_in, btn_out, bbtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         vendorname = findViewById(R.id.ViewVendorName);
         vendorname = findViewById(R.id.ViewVendorName);
         status = findViewById(R.id.TrantypView);
+        textView = findViewById(R.id.test);
 
        final String BoxId = (getIntent().getStringExtra("ScannedData"));
         boxid.setText(BoxId);
@@ -46,7 +48,9 @@ public class MainActivity extends AppCompatActivity {
         String currentDateString = dateFormat.format(currentDate);
         trandate.setText(currentDateString);
 
-        Button bbtn = findViewById(R.id.Backbtn);
+        bbtn = findViewById(R.id.Backbtn);
+        btn_in = findViewById(R.id.btn_in);
+        btn_out = findViewById(R.id.btn_out);
 
                 Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
                         .addConverterFactory(GsonConverterFactory.create())
@@ -74,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
                         if (foundDatamodel != null) {
                             Log.d("", "Logcess52 " + "1");
                             vendor.setText(foundDatamodel.getVendor());
-                            vendorname.setText(foundDatamodel.getVendorName());// get ไม่ได้อยู่นอก for
+                            vendorname.setText(foundDatamodel.getVendorName());
                         } else {
                             Log.d("", "Logcess52 " + "0");
                             test();
@@ -122,7 +126,26 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
+
+//                    public void UpdateData( String TransType) {
+//                        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
+//                        Datamodels datamodels = new Datamodels(TransType);
+//                        Call<Datamodels> call3 = retrofitAPI.getPut(datamodels);
+//                        call3.enqueue(new Callback<Datamodels>() {
+//                            @Override
+//                            public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
+//                                Toast.makeText(MainActivity.this, "Data updated to API", Toast.LENGTH_SHORT).show();
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<Datamodels> call, Throwable t) {
+//                                status.setText("Error found is : " + t.getMessage());
+//                            }
+//                        });
+//                    }
+
                 });
+
             bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -131,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
-
     }
 
 }

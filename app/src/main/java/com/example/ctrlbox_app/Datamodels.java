@@ -7,15 +7,15 @@ public class Datamodels {
     private String  Vendor;
     private  String VendorName;
     private  String Trandate;
-    private Boolean Trantype ;
+    private String Trantype ;
 
-    public Datamodels(String BoxId, String Vendor, String VendorName, String Trandate/*boolean Trantype*/) {
+    public Datamodels(String BoxId) {
 
         //String object =  "{\"BoxId\":\"1222\",\"Vendor\",\"VendorName\",\"Trandate\"}";
         this.BoxId = BoxId;
         this.Vendor = Vendor;
         this.VendorName = VendorName;
-        this.Trantype = Boolean.valueOf(Trantype);
+        this.Trantype = Trantype;
         this.Trandate = Trandate;
     }
 
@@ -44,11 +44,11 @@ public class Datamodels {
         VendorName = vendorName;
     }
 
-    public Boolean getTrantype() {
+    public String getTrantype() {
         return Trantype;
     }
 
-    public void setTrantype(Boolean trantype) {
+    public void setTrantype(String trantype) {
         Trantype = trantype;
     }
 
