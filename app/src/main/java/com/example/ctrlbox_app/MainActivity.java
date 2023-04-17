@@ -3,6 +3,7 @@ package com.example.ctrlbox_app;
 import android.content.Intent;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -35,9 +36,8 @@ public class MainActivity extends AppCompatActivity {
         vendorname = findViewById(R.id.ViewVendorName);
         status = findViewById(R.id.TrantypView);
 
-        String BoxId = (getIntent().getStringExtra("ScannedData"));
+       final String BoxId = (getIntent().getStringExtra("ScannedData"));
         boxid.setText(BoxId);
-
 
         TextView trandate = findViewById(R.id.TranDateView);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -51,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 retrofitAPI = retrofit.create(RetrofitAPI.class);
-                Call<List<Datamodels>> call = retrofitAPI.getPosts(BoxId);
+               Call<List<Datamodels>> call = retrofitAPI.getAllBC();
+                Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
+                    Log.d("MainAcivity","logcess" +BoxId);
                 call.enqueue(new Callback<List<Datamodels>>() {
                     @Override
                     public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
@@ -60,21 +62,54 @@ public class MainActivity extends AppCompatActivity {
                             return;
                         }
                         List<Datamodels> datamodels = response.body();
-                        for (Datamodels post : datamodels) {
-                            vendor.setText(post.getVendor());
-                            vendorname.setText(post.getVendorName());
+                        Datamodels foundDatamodel = null;
+                        for (Datamodels get : datamodels) {
+                            Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
+                            if (get.getBoxId().equals(BoxId)) {
+                                foundDatamodel = get;
+                                break;
+                            }
+                        }
+                        if (foundDatamodel != null) {
+                            Log.d("", "Logcess52 " + "1");
+                            vendor.setText(foundDatamodel.getVendor());
+                            vendorname.setText(foundDatamodel.getVendorName());// get ไม่ได้อยู่นอก for
+                        } else {
+                            Log.d("", "Logcess52 " + "0");
                         }
                     }
                     @Override
                     public void onFailure(Call<List<Datamodels>> call, Throwable t) {
                         status.setText(t.getMessage());
                     }
- 
                 });
+               /* call2.enqueue(new Callback<List<Datamodels>>() {
+                    @Override
+                    public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+                        if (!response.isSuccessful()) {
+                            status.setText("Code " + response.code());
+                            return;
+                        }
+                        List<Datamodels> datamodels = response.body();
+                        boolean foundMatch = false;
+                        for (Datamodels get : datamodels) {
+                            //Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
+                            if (get.getBoxId().equals(BoxId)) {
+                                foundMatch = true;
+                            }
+                        }
+                        if (foundMatch) {
+                            Log.d("", "Logcess52 " + "1");
+                        } else {
+                            Log.d("", "Logcess52 " + "0");
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<List<Datamodels>> call, Throwable t) {
+                        status.setText(t.getMessage());
+                    }
+                });*/
 
-              {
-
-        }
             bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -84,6 +119,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
 }
 
 

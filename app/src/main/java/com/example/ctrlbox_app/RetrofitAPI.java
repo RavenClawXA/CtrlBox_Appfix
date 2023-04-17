@@ -8,9 +8,11 @@ import retrofit2.http.Path;
 
 public interface RetrofitAPI {
 
-        @GET("CtrlBox_In/{id}")
+        @GET("BoxCtrl")
+        Call<List<Datamodels>> getAllBC();
+        @GET("BoxCtrl/{id}")
         Call<List<Datamodels>> getPosts(@Path("id") String BoxId);
 
-        @GET("CtrlBox_In")
-        Call<List<Datamodels>>getAll();
+        @GET("TransBox/get")
+        Call<List<Datamodels>>getAllTB();
 }

@@ -4,7 +4,7 @@ public class Datamodels {
 
 
     private String BoxId;
-    private  String  Vendor;
+    private String  Vendor;
     private  String VendorName;
     private  String Trandate;
     private Boolean Trantype ;
@@ -28,7 +28,7 @@ public class Datamodels {
         return BoxId;
     }
 
-    public String getVendor() {
+    public  String getVendor() {
         return Vendor;
     }
 
@@ -36,7 +36,7 @@ public class Datamodels {
         Vendor = vendor;
     }
 
-    public String getVendorName() {
+    public  String getVendorName() {
         return VendorName;
     }
 
