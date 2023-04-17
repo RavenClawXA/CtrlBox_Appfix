@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
                 retrofitAPI = retrofit.create(RetrofitAPI.class);
                Call<List<Datamodels>> call = retrofitAPI.getAllBC();
-                Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
+               //Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
                     Log.d("MainAcivity","logcess" +BoxId);
                 call.enqueue(new Callback<List<Datamodels>>() {
                     @Override
@@ -76,40 +77,52 @@ public class MainActivity extends AppCompatActivity {
                             vendorname.setText(foundDatamodel.getVendorName());// get ไม่ได้อยู่นอก for
                         } else {
                             Log.d("", "Logcess52 " + "0");
+                            test();
                         }
                     }
                     @Override
                     public void onFailure(Call<List<Datamodels>> call, Throwable t) {
                         status.setText(t.getMessage());
+                    }
+
+                    public void test() {
+                        Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
+                        call2.enqueue(new Callback<List<Datamodels>>() {
+                            @Override
+                            public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+                                if (!response.isSuccessful()) {
+                                    status.setText("Code " + response.code());
+                                    return;
+                                }
+                                List<Datamodels> datamodels = response.body();
+                                Datamodels foundDatamodel = null;
+                                for (Datamodels get : datamodels) {
+                                    Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
+                                    if (get.getBoxId().equals(BoxId)) {
+                                        foundDatamodel = get;
+                                        break;
+                                    }
+                                }
+                                if (foundDatamodel != null) {
+                                    Log.d("", "Logcess52 " + "1");
+                                    vendor.setText(foundDatamodel.getVendor());
+                                    vendorname.setText(foundDatamodel.getVendorName());// get ไม่ได้อยู่นอก for
+                                } else {
+                                    Log.d("", "Logcess52 " + "0");
+                                    Toast.makeText(MainActivity.this, "Box data is empty Reject", Toast.LENGTH_LONG).show();
+                                    Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<Datamodels>> call, Throwable t) {
+
+                            }
+                        });
                     }
                 });
-               /* call2.enqueue(new Callback<List<Datamodels>>() {
-                    @Override
-                    public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
-                        if (!response.isSuccessful()) {
-                            status.setText("Code " + response.code());
-                            return;
-                        }
-                        List<Datamodels> datamodels = response.body();
-                        boolean foundMatch = false;
-                        for (Datamodels get : datamodels) {
-                            //Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
-                            if (get.getBoxId().equals(BoxId)) {
-                                foundMatch = true;
-                            }
-                        }
-                        if (foundMatch) {
-                            Log.d("", "Logcess52 " + "1");
-                        } else {
-                            Log.d("", "Logcess52 " + "0");
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<List<Datamodels>> call, Throwable t) {
-                        status.setText(t.getMessage());
-                    }
-                });*/
-
             bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -118,6 +131,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 }
