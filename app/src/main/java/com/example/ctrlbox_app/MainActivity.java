@@ -57,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
                         .build();
                 retrofitAPI = retrofit.create(RetrofitAPI.class);
                Call<List<Datamodels>> call = retrofitAPI.getAllBC();
-               //Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
                     Log.d("MainAcivity","logcess" +BoxId);
                 call.enqueue(new Callback<List<Datamodels>>() {
                     @Override
@@ -79,9 +78,11 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("", "Logcess52 " + "1");
                             vendor.setText(foundDatamodel.getVendor());
                             vendorname.setText(foundDatamodel.getVendorName());
+
+                            btn_in.setVisibility(View.INVISIBLE);
                         } else {
                             Log.d("", "Logcess52 " + "0");
-                            test();
+                            getTb();
                         }
                     }
                     @Override
@@ -89,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
                         status.setText(t.getMessage());
                     }
 
-                    public void test() {
+                    public void getTb() {
                         Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
                         call2.enqueue(new Callback<List<Datamodels>>() {
                             @Override
@@ -110,7 +111,9 @@ public class MainActivity extends AppCompatActivity {
                                 if (foundDatamodel != null) {
                                     Log.d("", "Logcess52 " + "1");
                                     vendor.setText(foundDatamodel.getVendor());
-                                    vendorname.setText(foundDatamodel.getVendorName());// get ไม่ได้อยู่นอก for
+                                    vendorname.setText(foundDatamodel.getVendorName());
+
+                                    btn_out.setVisibility(View.INVISIBLE);
                                 } else {
                                     Log.d("", "Logcess52 " + "0");
                                     Toast.makeText(MainActivity.this, "Box data is empty Reject", Toast.LENGTH_LONG).show();
@@ -154,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+
     }
 
 }
