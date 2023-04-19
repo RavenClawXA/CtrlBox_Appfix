@@ -11,7 +11,7 @@ import retrofit2.http.Path;
 public interface RetrofitAPI {
 
         @PUT("BoxCtrl/update/{id}")
-        Call<Datamodels> getPut(@Body Datamodels datamodels);
+        Call<Datamodels> getPut(@Path("id") String BoxId, @Body Datamodels datamodels);
         @GET("BoxCtrl")
         Call<List<Datamodels>> getAllBC();
         @GET("BoxCtrl/{id}")

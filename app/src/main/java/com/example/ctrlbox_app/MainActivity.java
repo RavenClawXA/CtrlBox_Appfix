@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView boxid, status, textView, clock;
+    private TextView boxid, status, clock, txt_date;
     private TimeClock timeClock;
     private TextView vendor;
     private TextView vendorname;
@@ -34,21 +34,14 @@ public class MainActivity extends AppCompatActivity {
         boxid = findViewById(R.id.TextBoxId);
         vendor = findViewById(R.id.ViewVendor);
         vendorname = findViewById(R.id.ViewVendorName);
-        vendorname = findViewById(R.id.ViewVendorName);
         status = findViewById(R.id.TrantypView);
-        textView = findViewById(R.id.test);
+        txt_date = findViewById(R.id.TranDateView);
 
         clock = findViewById(R.id.clockView);
         timeClock = new TimeClock(clock);
 
-       final String BoxId = (getIntent().getStringExtra("ScannedData"));
-        boxid.setText(BoxId);
-
-        /*TextView trandate = findViewById(R.id.TranDateView);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        Date currentDate = new Date();
-        String currentDateString = dateFormat.format(currentDate);
-        trandate.setText(currentDateString);*/
+       final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
+        boxid.setText(num_BoxId);
 
         bbtn = findViewById(R.id.Backbtn);
         btn_in = findViewById(R.id.btn_in);
@@ -59,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
                         .build();
                 retrofitAPI = retrofit.create(RetrofitAPI.class);
                Call<List<Datamodels>> call = retrofitAPI.getAllBC();
-                    Log.d("MainAcivity","logcess" +BoxId);
+                    Log.d("MainAcivity","logcess" +num_BoxId);
                 call.enqueue(new Callback<List<Datamodels>>() {
                     @Override
                     public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
@@ -70,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
                         List<Datamodels> datamodels = response.body();
                         Datamodels foundDatamodel = null;
                         for (Datamodels get : datamodels) {
-                            Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
-                            if (get.getBoxId().equals(BoxId)) {
+                            Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor()+" "+get.getTransDate()+" "+get.getTransType());
+                            if (get.getBoxId().equals(num_BoxId)) {
                                 foundDatamodel = get;
                                 break;
                             }
@@ -80,7 +73,8 @@ public class MainActivity extends AppCompatActivity {
                             Log.d("", "Logcess52 " + "1");
                             vendor.setText(foundDatamodel.getVendor());
                             vendorname.setText(foundDatamodel.getVendorName());
-
+                            txt_date.setText(foundDatamodel.getTransDate());
+                            status.setText(foundDatamodel.getTransType());
                             btn_in.setVisibility(View.INVISIBLE);
                         } else {
                             Log.d("", "Logcess52 " + "0");
@@ -105,7 +99,7 @@ public class MainActivity extends AppCompatActivity {
                                 Datamodels foundDatamodel = null;
                                 for (Datamodels get : datamodels) {
                                     Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
-                                    if (get.getBoxId().equals(BoxId)) {
+                                    if (get.getBoxId().equals(num_BoxId)) {
                                         foundDatamodel = get;
                                         break;
                                     }
@@ -153,6 +147,8 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+
+
     }
     @Override
     protected void onResume(){
@@ -164,14 +160,19 @@ public class MainActivity extends AppCompatActivity {
         super.onPause();
         timeClock.stop();
     }
+//    public void update(String BoxID, String Vendor, String VendorName, String TransDate, String TransType ) {
+//        Datamodels modal = new Datamodels(BoxID, Vendor, VendorName, TransDate, TransType);
+//        Call<Datamodels> call3 = retrofitAPI.getPut(String.valueOf(boxid),modal);
+//        call3.enqueue(new Callback<Datamodels>() {
+//            @Override
+//            public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
+//
+//            }
+//
+//            @Override
+//            public void onFailure(Call<Datamodels> call, Throwable t) {
+//
+//            }
+//        });
+//    }
 }
-
-
-
-
-
-
-
-
-
-
