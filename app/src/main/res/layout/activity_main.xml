@@ -22,6 +22,13 @@
             android:orientation="vertical">
 
             <TextView
+                android:id="@+id/clockView"
+                android:layout_width="359dp"
+                android:layout_height="wrap_content"
+                android:baselineAligned="false"
+                android:text="time" />
+
+            <TextView
                 android:id="@+id/DetailTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,17 +52,16 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/DetailTextView" />
 
-                <TextView
+            <TextView
                 android:id="@+id/TextBoxId"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
                 android:layout_marginTop="5dp"
-                android:autofillHints="0"
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:minHeight="30dp"
-                android:text="00"
+                android:text="0"
                 android:textSize="20sp"
                 app:layout_constraintStart_toStartOf="@+id/BoxIdTextView"
                 app:layout_constraintTop_toBottomOf="@+id/Vendor"

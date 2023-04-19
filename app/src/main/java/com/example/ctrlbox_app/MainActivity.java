@@ -1,7 +1,6 @@
 package com.example.ctrlbox_app;
 
 import android.content.Intent;
-import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,7 +10,6 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -21,7 +19,8 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView boxid, status, textView;
+    private TextView boxid, status, textView, clock;
+    private TimeClock timeClock;
     private TextView vendor;
     private TextView vendorname;
     private RetrofitAPI retrofitAPI;
@@ -39,14 +38,17 @@ public class MainActivity extends AppCompatActivity {
         status = findViewById(R.id.TrantypView);
         textView = findViewById(R.id.test);
 
+        clock = findViewById(R.id.clockView);
+        timeClock = new TimeClock(clock);
+
        final String BoxId = (getIntent().getStringExtra("ScannedData"));
         boxid.setText(BoxId);
 
-        TextView trandate = findViewById(R.id.TranDateView);
+        /*TextView trandate = findViewById(R.id.TranDateView);
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date currentDate = new Date();
         String currentDateString = dateFormat.format(currentDate);
-        trandate.setText(currentDateString);
+        trandate.setText(currentDateString);*/
 
         bbtn = findViewById(R.id.Backbtn);
         btn_in = findViewById(R.id.btn_in);
@@ -129,27 +131,9 @@ public class MainActivity extends AppCompatActivity {
                             }
                         });
                     }
-
-//                    public void UpdateData( String TransType) {
-//                        RetrofitAPI retrofitAPI = retrofit.create(RetrofitAPI.class);
-//                        Datamodels datamodels = new Datamodels(TransType);
-//                        Call<Datamodels> call3 = retrofitAPI.getPut(datamodels);
-//                        call3.enqueue(new Callback<Datamodels>() {
-//                            @Override
-//                            public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-//                                Toast.makeText(MainActivity.this, "Data updated to API", Toast.LENGTH_SHORT).show();
-//                            }
-//
-//                            @Override
-//                            public void onFailure(Call<Datamodels> call, Throwable t) {
-//                                status.setText("Error found is : " + t.getMessage());
-//                            }
-//                        });
-//                    }
-
                 });
 
-            bbtn.setOnClickListener(new View.OnClickListener() {
+                bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, ScanActivity.class);
@@ -157,9 +141,29 @@ public class MainActivity extends AppCompatActivity {
                 finish();
             }
         });
+                btn_in.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
 
+                    }
+                });
+                btn_out.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                    }
+                });
     }
-
+    @Override
+    protected void onResume(){
+        super.onResume();
+        timeClock.start();
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        timeClock.stop();
+    }
 }
 
 
