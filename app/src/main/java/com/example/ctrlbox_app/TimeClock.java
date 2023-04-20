@@ -1,7 +1,6 @@
 package com.example.ctrlbox_app;
 
 import android.os.Handler;
-import android.os.SystemClock;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -19,7 +18,7 @@ public class TimeClock {
         this.clock = clock;
         handler = new Handler();
         sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("GMT+7"));
+        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
     private Runnable updateTimeRunnable = new Runnable(){
         @Override
@@ -37,7 +36,7 @@ public class TimeClock {
         handler.removeCallbacks(updateTimeRunnable);
     }
     public String getTimeString() {
-        long currentTimeMillis = SystemClock.elapsedRealtime();
+        long currentTimeMillis = System.currentTimeMillis();//เมื่อวานข้างบนมนมีอัยยี้ แต่ลบไปถึงได้เป็นเวลปัจจุบัน
         return sdf.format(new Date(currentTimeMillis));
     }
 }
