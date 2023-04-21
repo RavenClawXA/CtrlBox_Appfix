@@ -163,9 +163,18 @@ public class MainActivity extends AppCompatActivity {
                         //txt_date.setText(currentTimeString);
                         txt_date.setText(iso8601String);
                         status.setText("In");
+                        Log.d("Mainactivity","logshow"+status);
+
                         addToBC(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
+                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
+
                         addHistory(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
+                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
+
                         DeleteTB();
+                        Log.d("Mainactivity","log delete");
+
+                        btn_in.setVisibility(View.INVISIBLE);
                     }
                 });
 
@@ -176,10 +185,18 @@ public class MainActivity extends AppCompatActivity {
                         //txt_date.setText(currentTimeString);
                         txt_date.setText(iso8601String);
                         status.setText("Out");
+                        Log.d("Mainactivity","logshow"+status);
                         //update_in_BC("",vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
                         addtoTB(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
+                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
+
                         addHistory(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
+                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
+
                         DeleteBC();
+                        Log.d("Mainactivity","log delete");
+
+                        btn_out.setVisibility(View.INVISIBLE);
                     }
                 });//ปุ่มส่งมีไหมมื่อกี้ ลืมดูกดมันส์ไปหน่อย ไม่มีนิรีใหม่ แปป
     }

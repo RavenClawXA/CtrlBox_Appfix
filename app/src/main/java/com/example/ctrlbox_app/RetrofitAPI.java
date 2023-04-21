@@ -34,6 +34,6 @@ public interface RetrofitAPI {
         @POST("add")
         Call<Datamodels> addtoBC(@Body Datamodels datamodels);
 
-        @DELETE("BoxCtrl/delete/{id}")
-        Call<Datamodels_del> del_TB(@Path("id") String BoxId);//ดูsqสไปด้วย
+        @DELETE("TransBox/delete/{id}")
+        Call<Datamodels_del> del_TB(@Path("id") String BoxId);//ใส่ผิดหัวจะปวด รีบ5555 ลืมดูเหมือนกันอ่ะลองรัน
 }
