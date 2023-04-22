@@ -52,9 +52,9 @@ public class MainActivity extends AppCompatActivity {
         vendorname = findViewById(R.id.ViewVendorName);
         status = findViewById(R.id.TrantypView);
         txt_date = findViewById(R.id.TranDateView);
-       //txt_result = findViewById(R.id.txt_result);
+        txt_result = findViewById(R.id.txt_result);
 
-        //clock = findViewById(R.id.clockView);
+        clock = findViewById(R.id.clockView);
         timeClock = new TimeClock(clock);
         timeClock.start();
         String currentTimeString = timeClock.getTimeString();
@@ -198,7 +198,7 @@ public class MainActivity extends AppCompatActivity {
 
                         btn_out.setVisibility(View.INVISIBLE);
                     }
-                });//ปุ่มส่งมีไหมมื่อกี้ ลืมดูกดมันส์ไปหน่อย ไม่มีนิรีใหม่ แปป
+                });
     }
     @Override
     protected void onResume(){

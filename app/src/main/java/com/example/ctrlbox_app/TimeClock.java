@@ -5,26 +5,25 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.TimeZone;
 
 
 public class TimeClock {
 
     private Handler handler;
-    private SimpleDateFormat sdf;
+    private SimpleDateFormat iso8601Format;
     private TextView clock;
 
     public TimeClock(TextView clock) {
         this.clock = clock;
         handler = new Handler();
-        sdf = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
-        sdf.setTimeZone(TimeZone.getTimeZone("UTC"));
+        iso8601Format = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
+       // iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
     }
     private Runnable updateTimeRunnable = new Runnable(){
         @Override
         public void run() {
             long currerntTimeMillis = System.currentTimeMillis();
-            String currentTimeString = sdf.format(new Date(currerntTimeMillis));
+            String currentTimeString = iso8601Format.format(new Date(currerntTimeMillis));
             clock.setText(currentTimeString);
             handler.postDelayed(this, 1000);
         }
@@ -36,7 +35,7 @@ public class TimeClock {
         handler.removeCallbacks(updateTimeRunnable);
     }
     public String getTimeString() {
-        long currentTimeMillis = System.currentTimeMillis();//เมื่อวานข้างบนมนมีอัยยี้ แต่ลบไปถึงได้เป็นเวลปัจจุบัน
-        return sdf.format(new Date(currentTimeMillis));
+        long currentTimeMillis = System.currentTimeMillis();
+        return iso8601Format.format(new Date(currentTimeMillis));
     }
 }
