@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/skyBG"
+    android:background="@drawable/skybg"
     android:orientation="vertical"
     tools:context=".MainActivity">
 
@@ -36,7 +36,7 @@
             android:id="@+id/imagebox"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/Box"
+            android:src="@drawable/box"
             ></ImageView>
 
         <TextView
@@ -72,7 +72,7 @@
         <ImageView
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/Truck"
+            android:src="@drawable/truck"
             android:contentDescription="TODO"></ImageView>
 
         <TextView
