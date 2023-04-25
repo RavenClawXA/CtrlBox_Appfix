@@ -7,8 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,12 +22,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView boxid, status, clock, txt_date, txt_result;
-    private TimeClock timeClock;
-    private TextView vendor;
-    private TextView vendorname;
+    private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, event;
     private RetrofitAPI retrofitAPI;
     private Button btn_in, btn_out, bbtn;
+
+    private Spinner spn_vendor, spn_event;
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -35,32 +34,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        String dateTime;
         Calendar calendar;
-        SimpleDateFormat simpleDateFormat;
-
         calendar = Calendar.getInstance();
-        //simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
-        //dateTime = simpleDateFormat.format(calendar.getTime());
-
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
-        //iso8601Format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String iso8601String = iso8601Format.format(calendar.getTime());
+        String datetime = iso8601Format.format(calendar.getTime());
 
-        boxid = findViewById(R.id.TextBoxId);
-        vendor = findViewById(R.id.ViewVendor);
-        vendorname = findViewById(R.id.ViewVendorName);
-        status = findViewById(R.id.TrantypView);
-        txt_date = findViewById(R.id.TranDateView);
-        txt_result = findViewById(R.id.txt_result);
+        txt_boxid = findViewById(R.id.text_boxid);
+        spn_vendor = findViewById(R.id.spinner_vendor);
+        spn_event = findViewById(R.id.spinner_event);
+        txt_date = findViewById(R.id.text_date);
+        txt_status = findViewById(R.id.text_status);
+        txt_result_add = findViewById(R.id.txt_result_add);
+        txt_result_add_log = findViewById(R.id.txt_result_add_log);
+        txt_result_update = findViewById(R.id.txt_result_update);
+        event = findViewById(R.id.event);
 
-        clock = findViewById(R.id.clockView);
-        timeClock = new TimeClock(clock);
-        timeClock.start();
-        String currentTimeString = timeClock.getTimeString();
+        //clock = findViewById(R.id.clockView);// clock พี่ยังเอาอยู่มั้ย เอาไว้ก่อนเดี่ยวผมหาวิธีใส่เอง
+        //timeClock = new TimeClock(clock);
+        //timeClock.start();
+        //String currentTimeString = timeClock.getTimeString();
 
-       final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
-        boxid.setText(num_BoxId);
+        final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
+        txt_boxid.setText(num_BoxId);
 
         bbtn = findViewById(R.id.Backbtn);
         btn_in = findViewById(R.id.btn_in);
@@ -71,19 +66,19 @@ public class MainActivity extends AppCompatActivity {
                         .addConverterFactory(GsonConverterFactory.create())
                         .build();
                 retrofitAPI = retrofit.create(RetrofitAPI.class);
-               Call<List<Datamodels>> call = retrofitAPI.getAllBC();
-                    Log.d("MainAcivity","logcess" +num_BoxId);
+               Call<List<Datamodels>> call = retrofitAPI.getAllBoxTrans();
+                    Log.d("MainAcivity","logcess " +num_BoxId);
                 call.enqueue(new Callback<List<Datamodels>>() {
                     @Override
                     public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
                         if (!response.isSuccessful()) {
-                            status.setText("Code " + response.code());
+                            txt_result_add.setText("Code " + response.code());
                             return;
                         }
                         List<Datamodels> datamodels = response.body();
                         Datamodels foundDatamodel = null;
                         for (Datamodels get : datamodels) {
-                            Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor()+" "+get.getTransDate()+" "+get.getTransType());
+                            Log.d("","Logcess55 " +get.getBoxId()+" "+ get.getVendor()+" "+get.getGetFrom() +" "+get.getSendTo() +" "+get.getTransDate() +" "+get.getTransType());
                             if (get.getBoxId().equals(num_BoxId)) {
                                 foundDatamodel = get;
                                 break;
@@ -91,62 +86,22 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if (foundDatamodel != null) {
                             Log.d("", "Logcess52 " + "1");
-                            vendor.setText(foundDatamodel.getVendor());
-                            vendorname.setText(foundDatamodel.getVendorName());
-                            txt_date.setText(foundDatamodel.getTransDate());
-                            status.setText(foundDatamodel.getTransType());
-                            btn_in.setVisibility(View.INVISIBLE);
+                            txt_date.setText(foundDatamodel.getTransType());
+                            txt_status.setText(foundDatamodel.getTransType());
+                            event.setText("From to : ");
+                            //txt_date.setText(foundDatamodel.getTransDate());
+                            //status.setText(foundDatamodel.getTransType());
+                            //btn_in.setVisibility(View.INVISIBLE);
                         } else {
                             Log.d("", "Logcess52 " + "0");
-                            getTb();
-                        }
                     }
+                }
                     @Override
                     public void onFailure(Call<List<Datamodels>> call, Throwable t) {
-                        status.setText(t.getMessage());
+                        txt_result_add.setText(t.getMessage());
                     }
 
-                    public void getTb() {
-                        Call<List<Datamodels>> call2 = retrofitAPI.getAllTB();
-                        call2.enqueue(new Callback<List<Datamodels>>() {
-                            @Override
-                            public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
-                                if (!response.isSuccessful()) {
-                                    status.setText("Code " + response.code());
-                                    return;
-                                }
-                                List<Datamodels> datamodels = response.body();
-                                Datamodels foundDatamodel = null;
-                                for (Datamodels get : datamodels) {
-                                    Log.d("","Logcess51 " +get.getBoxId()+" "+get.getVendor());
-                                    if (get.getBoxId().equals(num_BoxId)) {
-                                        foundDatamodel = get;
-                                        break;
-                                    }
-                                }
-                                if (foundDatamodel != null) {
-                                    Log.d("", "Logcess52 " + "1");
-                                    vendor.setText(foundDatamodel.getVendor());
-                                    vendorname.setText(foundDatamodel.getVendorName());
-                                    txt_date.setText(foundDatamodel.getTransDate());
-                                    status.setText(foundDatamodel.getTransType());
 
-                                    btn_out.setVisibility(View.INVISIBLE);
-                                } else {
-                                    Log.d("", "Logcess52 " + "0");
-                                    Toast.makeText(MainActivity.this, "Box data is empty Reject", Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(MainActivity.this, ScanActivity.class);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<List<Datamodels>> call, Throwable t) {
-
-                            }
-                        });
-                    }
                 });
 
                 bbtn.setOnClickListener(new View.OnClickListener() {
@@ -156,155 +111,108 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
                 finish();
             }
-        });
+                });
+
                 btn_in.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //txt_date.setText(currentTimeString);
-                        txt_date.setText(iso8601String);
-                        status.setText("In");
-                        Log.d("Mainactivity","logshow"+status);
-
-                        addToBC(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
-                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
-
-                        addHistory(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
-                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
-
-                        DeleteTB();
-                        Log.d("Mainactivity","log delete");
-
+                        txt_date.setText(datetime);
+                        txt_status.setText("In");
+                        Log.d("Mainactivity","logshow"+txt_status);
+                        updateBoxTrans(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),spn_event.getSelectedItem().toString(),"",txt_date.getText().toString(),txt_status.getText().toString());
+                        addHistory(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),spn_event.getSelectedItem().toString(),"",txt_date.getText().toString(),txt_status.getText().toString());
                         btn_in.setVisibility(View.INVISIBLE);
                     }
                 });
-
-
                 btn_out.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //txt_date.setText(currentTimeString);
-                        txt_date.setText(iso8601String);
-                        status.setText("Out");
-                        Log.d("Mainactivity","logshow"+status);
-                        //update_in_BC("",vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
-                        addtoTB(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
-                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
-
-                        addHistory(boxid.getText().toString(), vendor.getText().toString(), vendorname.getText().toString(), txt_date.getText().toString(),status.getText().toString());
-                        Log.d("Mainactivity","logshow"+boxid.getText()+vendor.getText()+vendorname.getText()+txt_date.getText()+status.getText());
-
-                        DeleteBC();
+                        txt_date.setText(datetime);
+                        txt_status.setText("Out");
+                        Log.d("Mainactivity","logshow"+txt_status);
+                        updateBoxTrans(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),"",spn_event.getSelectedItem().toString(),txt_date.getText().toString(),txt_status.getText().toString());
+                        addHistory(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),"",spn_event.getSelectedItem().toString(),txt_date.getText().toString(),txt_status.getText().toString());
                         Log.d("Mainactivity","log delete");
 
                         btn_out.setVisibility(View.INVISIBLE);
                     }
                 });
     }
-    @Override
-    protected void onResume(){
-        super.onResume();
-        timeClock.start();
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        timeClock.stop();
-    }
-    /* public void update_in_BC(String BoxId, String Vendor, String VendorName, String TransDate, String TransType ) {
-        Datamodels modal = new Datamodels(BoxId, Vendor, VendorName, TransDate, TransType);
-        final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
-        Call<List<Datamodels>> call3 = retrofitAPI.getPut(num_BoxId, modal);
-        call3.enqueue(new Callback<List<Datamodels>>() {
-            @Override
-            public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
-                Toast.makeText(MainActivity.this, "Data updated to API", Toast.LENGTH_SHORT).show();
-            }
+//    @Override
+//    protected void onResume(){
+//        super.onResume();
+//        timeClock.start();
+//    }
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        timeClock.stop();
+//    }
+    //-------------------------------------Button Update---------------------------------------------------//
+    public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
+    Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+    final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
+    Call<Datamodels> call3 = retrofitAPI.updateBoxTrans(num_BoxId,modal_updateBoxTrans);
+    call3.enqueue(new Callback<Datamodels>() {
+        @Override
+        public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
+            txt_result_update.setText("success updateBoxTrans: ");
+        }
 
-            @Override
-            public void onFailure(Call<List<Datamodels>> call, Throwable t) {
-                status.setText(t.getMessage());
-            }
-        });
-    }*/
-    //-------------------------------------Button Out---------------------------------------------------//
-    public void addtoTB(String BoxId, String Vendor, String VendorName, String TransDate, String TransType){
-        Datamodels modal_addTB = new Datamodels(BoxId, Vendor, VendorName, TransDate, TransType);
-        Call<Datamodels> call4 = retrofitAPI.addtoTB(modal_addTB);
+        @Override
+        public void onFailure(Call<Datamodels> call, Throwable t) {
+            txt_result_update.setText("updateBoxTrans Error: " + t.getMessage());
+        }
+    });
+}
+    //-----------------------------------Button in/out addHistory----------------------------------------------//
+    public void addHistory(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
+        Datamodels modal_add_Log = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+        Call<Datamodels> call4 = retrofitAPI.addLogBox(modal_add_Log);
         call4.enqueue(new Callback<Datamodels>() {
             @Override
             public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-                txt_result.setText("Success add");
+                txt_result_add_log.setText("Success addHistory");
             }
 
             @Override
             public void onFailure(Call<Datamodels> call, Throwable t) {
-                txt_result.setText("addtoTB Error: " + t.getMessage());
+                txt_result_add_log.setText("addHistory Error: " + t.getMessage());
             }
         });
     }
 
-    public void DeleteBC(){
-        final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
-        Call<Datamodels_del> call5 = retrofitAPI.del_BC(num_BoxId);
-        call5.enqueue(new Callback<Datamodels_del>() {
+    //-------------------------------------add to BoxCtrl and BoxTrans---------------------------------------------------//
+    public void addBoxCtrl(String BoxId, String BoxName, String Vendor){
+        Datamodels_BoxCtrl modal_addBoxCtrl = new Datamodels_BoxCtrl(BoxId, BoxName, Vendor);
+        Call<Datamodels_BoxCtrl> call5 = retrofitAPI.addBoxCtrl(modal_addBoxCtrl);
+        call5.enqueue(new Callback<Datamodels_BoxCtrl>() {
             @Override
-            public void onResponse(Call<Datamodels_del> call, Response<Datamodels_del> response) {
-                txt_result.setText("Success delete");
+            public void onResponse(Call<Datamodels_BoxCtrl> call, Response<Datamodels_BoxCtrl> response) {
+                txt_status.setText("Success addBoxCtrl");
             }
 
             @Override
-            public void onFailure(Call<Datamodels_del> call, Throwable t) {
-                txt_result.setText("DeleteBC Error: " + t.getMessage());
+            public void onFailure(Call<Datamodels_BoxCtrl> call, Throwable t) {
+                txt_status.setText("addBoxCtrl Error: " + t.getMessage());
             }
         });
     }
 
-    public void addHistory(String BoxId, String Vendor, String VendorName, String TransDate, String TransType){
-        Datamodels modal_add_Log = new Datamodels(BoxId, Vendor, VendorName, TransDate, TransType);
-        Call<Datamodels> call6 = retrofitAPI.addHistory(modal_add_Log);
+    public void addBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
+        Datamodels modal_addBoxTrans = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+        Call<Datamodels> call6 = retrofitAPI.addBoxTrans(modal_addBoxTrans);
         call6.enqueue(new Callback<Datamodels>() {
             @Override
             public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-                txt_result.setText("Success addHistory");
+                txt_result_add.setText("Success addBoxTrans");
             }
 
             @Override
             public void onFailure(Call<Datamodels> call, Throwable t) {
-                txt_result.setText("addHistory Error: " + t.getMessage());
+                txt_result_add.setText("addBoxTrans Error: " + t.getMessage());
             }
         });
     }
+}  //แค่นี้ก่อน พรุ่งนี้ค่อยมาเทส ok ty เด๋วไล่อ่านแปป เหมือนเดมิแหละพี่
 
-    //-------------------------------------Button in---------------------------------------------------//
-    public void addToBC(String BoxId, String Vendor, String VendorName, String TransDate, String TransType){
-        Datamodels modal_addBC = new Datamodels(BoxId, Vendor, VendorName, TransDate, TransType);
-        Call<Datamodels> call7 = retrofitAPI.addtoBC(modal_addBC);
-        call7.enqueue(new Callback<Datamodels>() {
-            @Override
-            public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-                txt_result.setText("Success add");
-            }
-
-            @Override
-            public void onFailure(Call<Datamodels> call, Throwable t) {
-                txt_result.setText("addtoBC Error: " + t.getMessage());
-            }
-        });
-    }
-
-    public void DeleteTB(){
-        final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
-        Call<Datamodels_del> call6 = retrofitAPI.del_TB(num_BoxId);
-        call6.enqueue(new Callback<Datamodels_del>() {
-            @Override
-            public void onResponse(Call<Datamodels_del> call, Response<Datamodels_del> response) {
-                txt_result.setText("Success delete");
-            }
-
-            @Override
-            public void onFailure(Call<Datamodels_del> call, Throwable t) {
-                txt_result.setText("DeleteTB Error: " + t.getMessage());
-            }
-        });
-    }
-}
