@@ -41,7 +41,7 @@ public interface RetrofitAPI {
         Call<List<Datamodels>> getAllBoxTrans();
 
         @PUT("BoxTrans/update/{id}")
-        Call<Datamodels> updateBoxTrans(@Path("id") String BoxId, @Body Datamodels datamodels);
+        Call<List<Datamodels>> updateBoxTrans(@Path("id") String BoxId, @Body Datamodels datamodels);
 
         @POST("BoxTrans/add")
         Call<Datamodels> addBoxTrans(@Body Datamodels datamodels);

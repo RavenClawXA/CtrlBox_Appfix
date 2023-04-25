@@ -6,9 +6,11 @@ import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -24,9 +26,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, event;
     private RetrofitAPI retrofitAPI;
-    private Button btn_in, btn_out, bbtn;
+    private Button btn_in, btn_out, bbtn, btn_add;
 
     private Spinner spn_vendor, spn_event;
+
+    String[] get_from_List = {"STU","VWX","YZA","DDD","FFF","GGG"};
+    String[] vendorList = {"ABC","DEF","GHI","JKL","MNO","PQR"};
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -60,49 +65,87 @@ public class MainActivity extends AppCompatActivity {
         bbtn = findViewById(R.id.Backbtn);
         btn_in = findViewById(R.id.btn_in);
         btn_out = findViewById(R.id.btn_out);
+        btn_add = findViewById(R.id.addbtn);
 
-                Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
-                        .addConverterFactory(new NullOnEmptyConverterFactory())
-                        .addConverterFactory(GsonConverterFactory.create())
-                        .build();
-                retrofitAPI = retrofit.create(RetrofitAPI.class);
-               Call<List<Datamodels>> call = retrofitAPI.getAllBoxTrans();
-                    Log.d("MainAcivity","logcess " +num_BoxId);
-                call.enqueue(new Callback<List<Datamodels>>() {
-                    @Override
-                    public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
-                        if (!response.isSuccessful()) {
-                            txt_result_add.setText("Code " + response.code());
-                            return;
-                        }
-                        List<Datamodels> datamodels = response.body();
-                        Datamodels foundDatamodel = null;
-                        for (Datamodels get : datamodels) {
-                            Log.d("","Logcess55 " +get.getBoxId()+" "+ get.getVendor()+" "+get.getGetFrom() +" "+get.getSendTo() +" "+get.getTransDate() +" "+get.getTransType());
-                            if (get.getBoxId().equals(num_BoxId)) {
-                                foundDatamodel = get;
-                                break;
-                            }
-                        }
-                        if (foundDatamodel != null) {
-                            Log.d("", "Logcess52 " + "1");
-                            txt_date.setText(foundDatamodel.getTransType());
-                            txt_status.setText(foundDatamodel.getTransType());
-                            event.setText("From to : ");
-                            //txt_date.setText(foundDatamodel.getTransDate());
-                            //status.setText(foundDatamodel.getTransType());
-                            //btn_in.setVisibility(View.INVISIBLE);
-                        } else {
-                            Log.d("", "Logcess52 " + "0");
-                    }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_activated_1, get_from_List);
+        spn_event.setAdapter(adapter);
+        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
+                android.R.layout.simple_list_item_activated_1, vendorList);
+        spn_vendor.setAdapter(adapter2); 
+
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
+                .addConverterFactory(new NullOnEmptyConverterFactory())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        retrofitAPI = retrofit.create(RetrofitAPI.class);
+        Call<List<Datamodels>> call = retrofitAPI.getAllBoxTrans();
+        call.enqueue(new Callback<List<Datamodels>>() {
+            @Override
+            public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+                if (!response.isSuccessful()) {
+                    txt_result_add.setText("Code " + response.code());
+                    return;
                 }
-                    @Override
-                    public void onFailure(Call<List<Datamodels>> call, Throwable t) {
-                        txt_result_add.setText(t.getMessage());
+                List<Datamodels> datamodels = response.body();
+
+                Datamodels foundDatamodel = null;
+                for (Datamodels get : datamodels) {
+                    Log.d("", "Logcess51 " + get.getBoxId() + " " + get.getVendor() + " " + get.getTransDate() + " " + get.getTransType());
+                    if (get.getBoxId().equals(num_BoxId)) {
+                        foundDatamodel = get;
+                        break;
                     }
 
+                }
+                if (foundDatamodel != null) {
+                    Log.d("", "Logcess52 " + "1");
+                    txt_date.setText(foundDatamodel.getTransDate());
+                    txt_status.setText(foundDatamodel.getTransType());
+                    if(foundDatamodel.getTransType().equals("In")) {
+                        event.setText("Send to : ");
+                        btn_add.setVisibility(View.INVISIBLE);
+                        btn_in.setVisibility(View.INVISIBLE);
+                    }else {
+                        event.setText("Get From : ");
+                        btn_add.setVisibility(View.INVISIBLE);
+                        btn_out.setVisibility(View.INVISIBLE);
+                    }
+                } else {
+                    Log.d("", "Logcess52 " + "0");
+                    String check = num_BoxId;
+                    int count = check.length();
+                    int pattern = 10;
 
-                });
+                    if (count == pattern) {
+
+                        txt_status.setText("New data");
+                        btn_in.setVisibility(View.INVISIBLE);//อ่ะลองดู
+                        btn_out.setVisibility(View.INVISIBLE);
+                    } else {
+                        Log.d("", "Logcess52 " + "0");
+                        Toast.makeText(MainActivity.this, "Box data is empty Reject", Toast.LENGTH_LONG).show();
+                        Intent intent = new Intent(MainActivity.this, ScanActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                }
+            }
+            @Override
+            public void onFailure(Call<List<Datamodels>> call, Throwable t) {
+                txt_result_add.setText(t.getMessage());
+            }
+        });
+
+        btn_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                txt_date.setText(datetime);
+                addBoxCtrl(txt_boxid.getText().toString(),"TESTTEST","CYFF");
+                addBoxTrans(txt_boxid.getText().toString(),"CYF","","",txt_date.getText().toString(),"none");
+            }
+        });
 
                 bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,7 +176,6 @@ public class MainActivity extends AppCompatActivity {
                         updateBoxTrans(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),"",spn_event.getSelectedItem().toString(),txt_date.getText().toString(),txt_status.getText().toString());
                         addHistory(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),"",spn_event.getSelectedItem().toString(),txt_date.getText().toString(),txt_status.getText().toString());
                         Log.d("Mainactivity","log delete");
-
                         btn_out.setVisibility(View.INVISIBLE);
                     }
                 });
@@ -152,15 +194,15 @@ public class MainActivity extends AppCompatActivity {
     public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
     Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
     final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
-    Call<Datamodels> call3 = retrofitAPI.updateBoxTrans(num_BoxId,modal_updateBoxTrans);
-    call3.enqueue(new Callback<Datamodels>() {
+    Call<List<Datamodels>> call3 = retrofitAPI.updateBoxTrans(num_BoxId,modal_updateBoxTrans);
+    call3.enqueue(new Callback<List<Datamodels>>() {
         @Override
-        public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
+        public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
             txt_result_update.setText("success updateBoxTrans: ");
         }
 
         @Override
-        public void onFailure(Call<Datamodels> call, Throwable t) {
+        public void onFailure(Call<List<Datamodels>> call, Throwable t) {
             txt_result_update.setText("updateBoxTrans Error: " + t.getMessage());
         }
     });
@@ -189,12 +231,12 @@ public class MainActivity extends AppCompatActivity {
         call5.enqueue(new Callback<Datamodels_BoxCtrl>() {
             @Override
             public void onResponse(Call<Datamodels_BoxCtrl> call, Response<Datamodels_BoxCtrl> response) {
-                txt_status.setText("Success addBoxCtrl");
+                txt_result_add.setText("Success addBoxCtrl");
             }
 
             @Override
             public void onFailure(Call<Datamodels_BoxCtrl> call, Throwable t) {
-                txt_status.setText("addBoxCtrl Error: " + t.getMessage());
+                txt_result_add.setText("addBoxCtrl Error: " + t.getMessage());
             }
         });
     }
@@ -214,5 +256,5 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-}  //แค่นี้ก่อน พรุ่งนี้ค่อยมาเทส ok ty เด๋วไล่อ่านแปป เหมือนเดมิแหละพี่
+}
 
