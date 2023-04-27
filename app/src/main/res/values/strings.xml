@@ -1,8 +1,10 @@
 <resources>
     <string name="app_name">CtrlBox_App</string>
     <string name="รายละเอียด">รายละเอียด</string>
+    <string name="การจัดส่ง">การจัดส่ง</string>
     <string name="BoxId">BoxId</string>
     <string name="Vendor">Vendor :</string>
-    <string name="Sendto">Send to :</string>
+    <string name="FromVendor">มาจากไหน :</string>
+    <string name="Sendto">ใครรับ :</string>
     <string name="เวลาและวันที่">Date</string>
 </resources>

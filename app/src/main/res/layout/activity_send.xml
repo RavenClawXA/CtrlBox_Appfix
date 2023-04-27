@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/skybg"
     android:orientation="vertical"
-    tools:context=".MainActivity">
+    tools:context=".SendActivity">
 
     <TextView
         android:id="@+id/clockView"
@@ -31,41 +31,9 @@
             android:background="@drawable/textview_border"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            android:text="@string/รายละเอียด"
+            android:text="@string/การจัดส่ง"
             android:textSize="20sp"></TextView>
     </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp">
-
-        <ImageView
-            android:id="@+id/imagebox"
-            android:layout_width="70dp"
-            android:layout_height="70dp"
-            android:src="@drawable/box"></ImageView>
-
-        <TextView
-            android:id="@+id/text1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_toEndOf="@+id/imagebox"
-            android:text="@string/BoxId" />
-
-        <TextView
-            android:id="@+id/text_boxid"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/imagebox"
-            android:text="" />
-
-    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -93,24 +61,6 @@
             android:textSize="15sp" />
 
         <TextView
-            android:id="@+id/textVendor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
-            android:layout_marginTop="17dp"
-            android:layout_toRightOf="@+id/textView5"
-            android:text=""
-            android:textSize="15sp" />
-        <TextView
-            android:id="@+id/ViewCYF"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20sp"
-            android:layout_marginTop="20sp"
-            android:layout_toRightOf="@+id/textView5"
-            android:text=""/>
-
-        <TextView
             android:id="@+id/event"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -120,16 +70,6 @@
             android:text="@string/Sendto"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/textTo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20sp"
-            android:layout_marginTop="51dp"
-            android:layout_toRightOf="@+id/event"
-            android:text=""
-            android:textSize="16sp" />
-
         <Spinner
             android:id="@+id/spinner_vendor"
             android:layout_width="wrap_content"
@@ -137,7 +77,6 @@
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@id/textView5"
             android:minHeight="48sp"
-
             android:text="" />
 
         <Spinner
@@ -189,7 +128,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:layout_marginRight="20dp"
         android:paddingBottom="10dp">
 
@@ -223,30 +162,6 @@
 
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/txt_result_add"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="result" />
-
-    <TextView
-        android:id="@+id/txt_result_add_log"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="result" />
-
-    <TextView
-        android:id="@+id/txt_result_update"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:text="result" />
-
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -254,39 +169,45 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/btn_in"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="55dp"
-
-            android:text="รับเข้า" />
-
-        <Button
+            <Button
             android:id="@+id/btn_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginLeft="20dp"
-            android:text="ส่งออก" />
-
+            android:text="ส่ง" />
         <Button
-            android:id="@+id/Backbtn"
+            android:id="@+id/backbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
             android:layout_marginRight="30dp"
             android:text="กลับ" />
 
-        <Button
-            android:id="@+id/addbtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="left"
-            android:layout_marginLeft="50dp"
-            android:text="CYF Property" />
-
     </FrameLayout>
+
+    <TextView
+        android:id="@+id/txt_result_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="20sp"
+        android:text="result" />
+
+    <TextView
+        android:id="@+id/txt_result_add_log"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10sp"
+        android:text="result" />
+
+    <TextView
+        android:id="@+id/txt_result_update"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10sp"
+        android:text="result" />
 
 </LinearLayout>

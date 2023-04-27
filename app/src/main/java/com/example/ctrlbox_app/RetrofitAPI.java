@@ -13,8 +13,10 @@ public interface RetrofitAPI {
 
        /* @PUT("BoxCtrl/update/{id}")
         Call<List<Datamodels>> getPut(@Path("id") String BoxId, @Body Datamodels datamodels);
+
         @GET("BoxCtrl")
         Call<List<Datamodels>> getAllBC();
+
         @GET("BoxCtrl/{id}")
         Call<List<Datamodels>> getPosts(@Path("id") String BoxId);
 
@@ -44,7 +46,7 @@ public interface RetrofitAPI {
         Call<List<Datamodels>> updateBoxTrans(@Path("id") String BoxId, @Body Datamodels datamodels);
 
         @POST("BoxTrans/add")
-        Call<Datamodels> addBoxTrans(@Body Datamodels datamodels);
+        Call    <Datamodels> addBoxTrans(@Body Datamodels datamodels);
 
         //-----------BoxCtrl--------------------//
         @GET("BoxCtrl")
