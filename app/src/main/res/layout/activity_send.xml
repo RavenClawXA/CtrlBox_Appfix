@@ -51,13 +51,22 @@
             android:src="@drawable/truck"></ImageView>
 
         <TextView
-            android:id="@+id/textView5"
+            android:id="@+id/viewVendor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="17dp"
             android:layout_toRightOf="@+id/truck"
             android:text="@string/FromVendor"
+            android:textSize="15sp" />
+
+        <TextView
+            android:id="@+id/textVendor"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20sp"
+            android:layout_marginTop="17dp"
+            android:layout_toRightOf="@+id/viewVendor"
             android:textSize="15sp" />
 
         <TextView
@@ -70,14 +79,6 @@
             android:text="@string/Sendto"
             android:textSize="16sp" />
 
-        <Spinner
-            android:id="@+id/spinner_vendor"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@id/textView5"
-            android:minHeight="48sp"
-            android:text="" />
 
         <Spinner
             android:id="@+id/spinner_event"

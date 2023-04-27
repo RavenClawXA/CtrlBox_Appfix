@@ -30,19 +30,18 @@ public class SendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send);
 
         String[] get_from_List = {"STU","VWX","YZA","DDD","FFF","GGG"};
-        String[] venderList = {"ABC","DEF","GHI","JKL","MNO","PQR"};
 
         RetrofitAPI retrofitAPI;
         Button backbtn,btn_out;
-        Spinner spn_vendor, spn_event;
-        TextView date, status,txt_result_update,txt_result_add_log,text_boxid;
+        Spinner spn_event;
+        TextView date, status,txt_result_update,txt_result_add_log,text_boxid,textVendor;
 
         date = findViewById(R.id.text_date);
         status = findViewById(R.id.text_status);
-        spn_vendor = findViewById(R.id.spinner_vendor);
         spn_event = findViewById(R.id.spinner_event);
         txt_result_update = findViewById(R.id.txt_result_update);
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
+        textVendor = findViewById(R.id.textVendor);
 
         backbtn =findViewById(R.id.backbtn);
         btn_out = findViewById(R.id.btn_out);
@@ -60,12 +59,10 @@ public class SendActivity extends AppCompatActivity {
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
                 android.R.layout.simple_list_item_activated_1, get_from_List);
         spn_event.setAdapter(adapter);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_activated_1, venderList);
-        spn_vendor.setAdapter(adapter2);
 
         Intent rec = getIntent();
         String boxid = rec.getStringExtra("num_BoxId");
+        String vendor = rec.getStringExtra("Vendor");
 
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
@@ -73,6 +70,8 @@ public class SendActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitAPI = retrofit.create(RetrofitAPI.class);
+
+        textVendor.setText(vendor);
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,14 +81,15 @@ public class SendActivity extends AppCompatActivity {
 
             }
         });
+
         btn_out.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 status.setText("Out");
                 date.setText(datetime);
-                Log.d("SendActiviy","logid 1"+ boxid); //มันเป็นค่าว่าตรงไหนฟะ chatgpt
-                updateBoxTrans(boxid,spn_vendor.getSelectedItem().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
-                addLogBox(boxid,spn_vendor.getSelectedItem().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
+                Log.d("SendActiviy","logid 1"+ boxid);
+                updateBoxTrans(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
+                addLogBox(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
                 btn_out.setVisibility(View.INVISIBLE);
             }
 

@@ -24,14 +24,9 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, event, txt_result_add1,ViewCYF,textVendor,textTo;
+    private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, sendto, txt_result_add1,textVendor,textTo;
     private RetrofitAPI retrofitAPI;
     private Button btn_in, btn_out, bbtn, btn_add;
-
-    private Spinner spn_vendor, spn_event;
-
-    String[] get_from_List = {"STU","VWX","YZA","DDD","FFF","GGG"};
-    String[] venderList = {"ABC","DEF","GHI","JKL","MNO","PQR"};
 
     @SuppressLint("MissingInflatedId")
     @Override
@@ -42,16 +37,13 @@ public class MainActivity extends AppCompatActivity {
         txt_boxid = findViewById(R.id.text_boxid);
         textVendor= findViewById(R.id.textVendor);
         textTo= findViewById(R.id.textTo);
-        spn_vendor = findViewById(R.id.spinner_vendor);
-        spn_event = findViewById(R.id.spinner_event);
         txt_date = findViewById(R.id.text_date);
         txt_status = findViewById(R.id.text_status);
         txt_result_add = findViewById(R.id.txt_result_add);
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         txt_result_update = findViewById(R.id.txt_result_update);
         //txt_result_add1 = findViewById(R.id.txt_result_add1);
-        event = findViewById(R.id.event);
-        ViewCYF = findViewById(R.id.ViewCYF);
+        sendto = findViewById(R.id.event);
 
         TextView timeTextView = findViewById(R.id.clockView);
         TimeClock timeClock = new TimeClock(timeTextView);
@@ -70,14 +62,6 @@ public class MainActivity extends AppCompatActivity {
         btn_in = findViewById(R.id.btn_in);
         btn_out = findViewById(R.id.btn_out);
         btn_add = findViewById(R.id.addbtn);
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_activated_1, get_from_List);
-        spn_event.setAdapter(adapter);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(this,
-                android.R.layout.simple_list_item_activated_1, venderList);
-        spn_vendor.setAdapter(adapter2);
-
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
@@ -112,21 +96,21 @@ public class MainActivity extends AppCompatActivity {
                         textTo.setText(foundDatamodel.getGetFrom());
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_in.setVisibility(View.INVISIBLE);
-                        spn_vendor.setVisibility(View.INVISIBLE);
-                        spn_event.setVisibility(View.INVISIBLE);
+                        sendto.setText("GetFrom ");
+
                     }else {
                         textVendor.setText(foundDatamodel.getVendor());
+                        textTo.setText(foundDatamodel.getSendTo());
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_out.setVisibility(View.INVISIBLE);
-                        spn_vendor.setVisibility(View.INVISIBLE);
+                        sendto.setText("Send To ");
+
                     }
                 } else {
                     Log.d("", "Logcess52 " + "0");
                     btn_in.setVisibility(View.INVISIBLE);
                     btn_out.setVisibility(View.INVISIBLE);
-                    spn_event.setVisibility(View.INVISIBLE);
-                    spn_vendor.setVisibility(View.INVISIBLE);
-                    ViewCYF.setText("CYF");
+                    textVendor.setText("CYF");
 
                     String check = num_BoxId;
                     int count = check.length();
@@ -164,8 +148,8 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                     txt_status.setText("In");
                     txt_date.setText(datetime);
-                    updateBoxTrans(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),spn_event.getSelectedItem().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
-                    addLogBox(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),spn_event.getSelectedItem().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
+                    updateBoxTrans(txt_boxid.getText().toString(),textVendor.getText().toString(),"-",textTo.getText().toString(),txt_date.getText().toString(),txt_status.getText().toString());
+                    addLogBox(txt_boxid.getText().toString(),textVendor.getText().toString(),"-",textTo.getText().toString(),txt_date.getText().toString(),txt_status.getText().toString());
                     btn_in.setVisibility(View.INVISIBLE);
             }
         });
@@ -176,6 +160,7 @@ public class MainActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(MainActivity.this, SendActivity.class);
                 intent.putExtra("num_BoxId",txt_boxid.getText().toString());
+                intent.putExtra("Vendor",textVendor.getText().toString());
                 startActivity(intent);
 
 //                txt_status.setText("Out");
@@ -189,8 +174,6 @@ public class MainActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                spn_event.setVisibility(View.INVISIBLE);
-                spn_vendor.setVisibility(View.INVISIBLE);
                 txt_status.setText("none");
                 txt_date.setText(datetime);
                 addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");

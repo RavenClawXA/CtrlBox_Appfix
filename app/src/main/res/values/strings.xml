@@ -4,7 +4,7 @@
     <string name="การจัดส่ง">การจัดส่ง</string>
     <string name="BoxId">BoxId</string>
     <string name="Vendor">Vendor :</string>
-    <string name="FromVendor">มาจากไหน :</string>
-    <string name="Sendto">ใครรับ :</string>
+    <string name="FromVendor">Vendor :</string>
+    <string name="Sendto">Sendto :</string>
     <string name="เวลาและวันที่">Date</string>
 </resources>
