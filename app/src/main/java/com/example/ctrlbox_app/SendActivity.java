@@ -34,7 +34,7 @@ public class SendActivity extends AppCompatActivity {
         RetrofitAPI retrofitAPI;
         Button backbtn,btn_out;
         Spinner spn_event;
-        TextView date, status,txt_result_update,txt_result_add_log,text_boxid,textVendor;
+        TextView date, status,txt_result_update,txt_result_add_log,text_boxid,textVendor,event;
 
         date = findViewById(R.id.text_date);
         status = findViewById(R.id.text_status);
@@ -42,6 +42,7 @@ public class SendActivity extends AppCompatActivity {
         txt_result_update = findViewById(R.id.txt_result_update);
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         textVendor = findViewById(R.id.textVendor);
+        event = findViewById(R.id.event);
 
         backbtn =findViewById(R.id.backbtn);
         btn_out = findViewById(R.id.btn_out);
@@ -72,6 +73,7 @@ public class SendActivity extends AppCompatActivity {
         retrofitAPI = retrofit.create(RetrofitAPI.class);
 
         textVendor.setText(vendor);
+        event.setText("Sendto :");
 
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override

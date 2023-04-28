@@ -96,21 +96,21 @@ public class MainActivity extends AppCompatActivity {
                         textTo.setText(foundDatamodel.getGetFrom());
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_in.setVisibility(View.INVISIBLE);
-                        sendto.setText("GetFrom ");
+                       // sendto.setText("GetFrom ");
 
                     }else {
                         textVendor.setText(foundDatamodel.getVendor());
                         textTo.setText(foundDatamodel.getSendTo());
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_out.setVisibility(View.INVISIBLE);
-                        sendto.setText("Send To ");
+                       // sendto.setText("Send To ");
 
                     }
                 } else {
                     Log.d("", "Logcess52 " + "0");
                     btn_in.setVisibility(View.INVISIBLE);
                     btn_out.setVisibility(View.INVISIBLE);
-                    textVendor.setText("CYF");
+                    //textVendor.setText("CYF");
 
                     String check = num_BoxId;
                     int count = check.length();
