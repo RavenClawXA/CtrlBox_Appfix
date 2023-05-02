@@ -52,7 +52,6 @@ public class ScanActivity extends AppCompatActivity
         scnb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(ScanActivity.this, CaptureActivity.class);
                 startActivity(getIntent());
                 finish();
             }

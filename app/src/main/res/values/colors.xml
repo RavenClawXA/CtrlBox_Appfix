@@ -7,7 +7,7 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
-    <color name="zxing_primary"></color>
-    <color name="zxing_primary_dark"></color>
-    <color name="zxing_accent"></color>
+    <color name="zxing_primary" />
+    <color name="zxing_primary_dark" />
+    <color name="zxing_accent" />
 </resources>

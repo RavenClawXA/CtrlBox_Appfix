@@ -34,7 +34,7 @@ public class SendActivity extends AppCompatActivity {
         RetrofitAPI retrofitAPI;
         Button backbtn,btn_out;
         Spinner spn_event;
-        TextView date, status,txt_result_update,txt_result_add_log,text_boxid,textVendor,event;
+        TextView date, status,txt_result_update,txt_result_add_log,textVendor,event;
 
         date = findViewById(R.id.text_date);
         status = findViewById(R.id.text_status);
@@ -57,7 +57,7 @@ public class SendActivity extends AppCompatActivity {
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
         String datetime = iso8601Format.format(calendar.getTime());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_activated_1, get_from_List);
         spn_event.setAdapter(adapter);
 

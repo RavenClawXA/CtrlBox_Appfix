@@ -2,17 +2,15 @@ package com.example.ctrlbox_app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
@@ -25,9 +23,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
-    private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, sendto, txt_result_add1,textVendor,textTo;
+    private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, sendto,textVendor,textTo;
     private RetrofitAPI retrofitAPI;
-    private Button btn_in, btn_out, bbtn, btn_add;
+    private Button btn_in;
+    private Button btn_out;
+    private Button btn_add;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +42,6 @@ public class MainActivity extends AppCompatActivity {
         txt_result_add = findViewById(R.id.txt_result_add);
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         txt_result_update = findViewById(R.id.txt_result_update);
-        //txt_result_add1 = findViewById(R.id.txt_result_add1);
         sendto = findViewById(R.id.sendto);
 
         TextView timeTextView = findViewById(R.id.clockView);
@@ -58,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
         String datetime = iso8601Format.format(calendar.getTime());
 
 
-        bbtn = findViewById(R.id.Backbtn);
+        Button bbtn = findViewById(R.id.Backbtn);
         btn_in = findViewById(R.id.btn_in);
         btn_out = findViewById(R.id.btn_out);
         btn_add = findViewById(R.id.addbtn);
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         Call<List<Datamodels>> call = retrofitAPI.getAllBoxTrans();
         call.enqueue(new Callback<List<Datamodels>>() {
             @Override
-            public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+            public void onResponse(@NonNull Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
                 if (!response.isSuccessful()) {
                     txt_result_add.setText("Code " + response.code());
                     return;
