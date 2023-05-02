@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btn_in;
     private Button btn_out;
     private Button btn_add;
+    private Button bbtn ;
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,10 +58,14 @@ public class MainActivity extends AppCompatActivity {
         String datetime = iso8601Format.format(calendar.getTime());
 
 
-        Button bbtn = findViewById(R.id.Backbtn);
+        bbtn = findViewById(R.id.Backbtn);
+        bbtn.setBackground(getDrawable(R.drawable.button_color));
         btn_in = findViewById(R.id.btn_in);
+        btn_in.setBackground(getDrawable(R.drawable.button_color));
         btn_out = findViewById(R.id.btn_out);
+        btn_out.setBackground(getDrawable(R.drawable.button_color));
         btn_add = findViewById(R.id.addbtn);
+        btn_add.setBackground(getDrawable(R.drawable.button_color));
 
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")

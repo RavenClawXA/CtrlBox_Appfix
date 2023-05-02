@@ -45,7 +45,9 @@ public class SendActivity extends AppCompatActivity {
         event = findViewById(R.id.event);
 
         backbtn =findViewById(R.id.backbtn);
+        backbtn.setBackground(getDrawable(R.drawable.button_color));
         btn_out = findViewById(R.id.btn_out);
+        btn_out.setBackground(getDrawable(R.drawable.button_color));
 
 
         TextView timeTextView = findViewById(R.id.clockView);
