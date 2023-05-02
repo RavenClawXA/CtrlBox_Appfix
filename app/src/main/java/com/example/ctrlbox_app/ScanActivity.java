@@ -34,7 +34,7 @@ public class ScanActivity extends AppCompatActivity
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
-                Toast.makeText(this, "Scan cancelled", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, "Scan cancelled", Toast.LENGTH_SHORT).show();
 
             } else {
                     String scannedData = result.getContents();

@@ -2,6 +2,7 @@ package com.example.ctrlbox_app;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.graphics.Color;
 import android.icu.text.SimpleDateFormat;
 import android.os.Bundle;
 import android.util.Log;
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, sendto, txt_result_add1,textVendor,textTo;
     private RetrofitAPI retrofitAPI;
     private Button btn_in, btn_out, bbtn, btn_add;
-
     @SuppressLint("MissingInflatedId")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity {
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         txt_result_update = findViewById(R.id.txt_result_update);
         //txt_result_add1 = findViewById(R.id.txt_result_add1);
-        sendto = findViewById(R.id.event);
+        sendto = findViewById(R.id.sendto);
 
         TextView timeTextView = findViewById(R.id.clockView);
         TimeClock timeClock = new TimeClock(timeTextView);
@@ -62,6 +62,7 @@ public class MainActivity extends AppCompatActivity {
         btn_in = findViewById(R.id.btn_in);
         btn_out = findViewById(R.id.btn_out);
         btn_add = findViewById(R.id.addbtn);
+
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
@@ -96,21 +97,21 @@ public class MainActivity extends AppCompatActivity {
                         textTo.setText(foundDatamodel.getGetFrom());
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_in.setVisibility(View.INVISIBLE);
-                       // sendto.setText("GetFrom ");
+                        sendto.setText("GetFrom :");
 
                     }else {
                         textVendor.setText(foundDatamodel.getVendor());
                         textTo.setText(foundDatamodel.getSendTo());
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_out.setVisibility(View.INVISIBLE);
-                       // sendto.setText("Send To ");
+                        sendto.setText("Send To :");
 
                     }
                 } else {
                     Log.d("", "Logcess52 " + "0");
                     btn_in.setVisibility(View.INVISIBLE);
                     btn_out.setVisibility(View.INVISIBLE);
-                    //textVendor.setText("CYF");
+                    textVendor.setText("CYF");
 
                     String check = num_BoxId;
                     int count = check.length();
@@ -148,8 +149,9 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                     txt_status.setText("In");
                     txt_date.setText(datetime);
-                    updateBoxTrans(txt_boxid.getText().toString(),textVendor.getText().toString(),"-",textTo.getText().toString(),txt_date.getText().toString(),txt_status.getText().toString());
-                    addLogBox(txt_boxid.getText().toString(),textVendor.getText().toString(),"-",textTo.getText().toString(),txt_date.getText().toString(),txt_status.getText().toString());
+                    updateBoxTrans(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
+                    Log.d("Mainactivity","text"+textTo.getText()+textVendor.getText());
+                    addLogBox(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
                     btn_in.setVisibility(View.INVISIBLE);
             }
         });
@@ -174,10 +176,10 @@ public class MainActivity extends AppCompatActivity {
         btn_add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txt_status.setText("none");
+                txt_status.setText("In");
                 txt_date.setText(datetime);
                 addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");
-                addBoxTrans(txt_boxid.getText().toString(),"CYF", "-", "-", txt_date.getText().toString(), txt_status.getText().toString());
+                addBoxTrans(txt_boxid.getText().toString(),"CYF","CYF", "-", txt_date.getText().toString(), txt_status.getText().toString());
                 btn_add.setVisibility(View.INVISIBLE);
             }
         });

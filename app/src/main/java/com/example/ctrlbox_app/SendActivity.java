@@ -78,8 +78,12 @@ public class SendActivity extends AppCompatActivity {
         backbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(SendActivity.this, MainActivity.class);
-                startActivity(intent);
+                if (btn_out.getVisibility()==View.VISIBLE) {
+                    onBackPressed();
+                }else {
+                    Intent intent = new Intent(SendActivity.this, ScanActivity.class);
+                    startActivity(intent);
+                }
 
             }
         });

@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:background="@drawable/skybg"
     android:orientation="vertical"
+
     tools:context=".MainActivity">
 
     <TextView
@@ -14,9 +15,9 @@
         android:layout_height="wrap_content"
         android:layout_gravity="end"
         android:layout_marginTop="10dp"
-        android:layout_marginRight="20dp"
-
-        android:text="TextView" />
+        android:layout_marginEnd="20dp"
+        android:textColor="#455A64"
+        tools:ignore="HardcodedText" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -32,7 +33,9 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:text="@string/รายละเอียด"
-            android:textSize="20sp"></TextView>
+            android:textColor="#4E342E"
+            android:textSize="20sp"
+            tools:ignore="TextContrastCheck"></TextView>
     </LinearLayout>
 
     <RelativeLayout
@@ -46,7 +49,9 @@
             android:id="@+id/imagebox"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/box"></ImageView>
+            android:src="@drawable/box"
+            tools:ignore="ContentDescription,HardcodedText,ImageContrastCheck"
+            android:contentDescription="TODO"></ImageView>
 
         <TextView
             android:id="@+id/text1"
@@ -54,15 +59,16 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_toEndOf="@+id/imagebox"
-            android:text="@string/BoxId" />
+            android:text="@string/BoxId"
+            android:textColor="#455A64" />
 
         <TextView
             android:id="@+id/text_boxid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/imagebox"
+            android:layout_toEndOf="@id/imagebox"
             android:text="" />
 
     </RelativeLayout>
@@ -80,7 +86,8 @@
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:contentDescription="TODO"
-            android:src="@drawable/truck"></ImageView>
+            android:src="@drawable/truck"
+            tools:ignore="ContentDescription,HardcodedText,ImageContrastCheck"></ImageView>
 
         <TextView
             android:id="@+id/viewVendor"
@@ -88,8 +95,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="17dp"
-            android:layout_toRightOf="@+id/truck"
+            android:layout_toEndOf="@+id/truck"
             android:text="@string/FromVendor"
+            android:textColor="#37474F"
             android:textSize="15sp" />
 
         <TextView
@@ -98,7 +106,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="17dp"
-            android:layout_toRightOf="@+id/viewVendor"
+            android:layout_toEndOf="@+id/viewVendor"
             android:text=""
             android:textSize="15sp" />
 
@@ -108,8 +116,9 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="51dp"
-            android:layout_toRightOf="@+id/truck"
+            android:layout_toEndOf="@+id/truck"
             android:text="@string/Sendto"
+            android:textColor="#37474F"
             android:textSize="16sp" />
 
         <TextView
@@ -118,7 +127,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="51dp"
-            android:layout_toRightOf="@+id/sendto"
+            android:layout_toEndOf="@+id/sendto"
             android:text=""
             android:textSize="16sp" />
 
@@ -135,15 +144,18 @@
             android:id="@+id/imagecalendar"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/calendar"></ImageView>
+            android:src="@drawable/calendar"
+            tools:ignore="ContentDescription,HardcodedText,ImageContrastCheck"
+            android:contentDescription="TODO"></ImageView>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
+            android:layout_marginStart="9dp"
             android:layout_marginTop="5dp"
-            android:layout_toRightOf="@id/imagecalendar"
-            android:text="@string/เวลาและวันที่">
+            android:layout_toEndOf="@id/imagecalendar"
+            android:text="@string/เวลาและวันที่"
+            android:textColor="#263238">
 
         </TextView>
 
@@ -151,9 +163,9 @@
             android:id="@+id/text_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/imagecalendar"
+            android:layout_toEndOf="@id/imagecalendar"
             android:text="" />
 
     </RelativeLayout>
@@ -171,17 +183,21 @@
             android:id="@+id/statusimage"
             android:layout_width="70dp"
             android:layout_height="70dp"
-            android:src="@drawable/status"></ImageView>
+            android:src="@drawable/status"
+            tools:ignore="ContentDescription,HardcodedText,ImageContrastCheck"
+            android:contentDescription="TODO"></ImageView>
 
 
         <TextView
             android:id="@+id/status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
-            android:layout_toRightOf="@+id/statusimage"
-            android:text="Status">
+            android:layout_toEndOf="@+id/statusimage"
+            android:text="Status"
+            android:textColor="#263238"
+            tools:ignore="HardcodedText">
 
         </TextView>
 
@@ -189,9 +205,9 @@
             android:id="@+id/text_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
-            android:layout_toRightOf="@id/statusimage"
+            android:layout_toEndOf="@id/statusimage"
             android:text="" />
 
     </RelativeLayout>
@@ -202,7 +218,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="result" />
+        android:text="result"
+        android:textColor="#212121" />
 
     <TextView
         android:id="@+id/txt_result_add_log"
@@ -210,7 +227,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="result" />
+        android:text="result"
+        android:textColor="#212121" />
 
     <TextView
         android:id="@+id/txt_result_update"
@@ -218,7 +236,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="10dp"
-        android:text="result" />
+        android:text="result"
+        android:textColor="#000000" />
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -227,20 +246,24 @@
         android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
+
         <Button
             android:id="@+id/btn_in"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:background="@color/black"
             android:layout_marginLeft="55dp"
 
-            android:text="รับเข้า" />
+            android:text="รับเข้า"
+            tools:ignore="VisualLintOverlap" />
 
         <Button
             android:id="@+id/btn_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/black"
             android:layout_marginLeft="20dp"
             android:text="ส่งออก" />
 
@@ -249,16 +272,20 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
+            android:background="@color/black"
             android:layout_marginRight="30dp"
-            android:text="กลับ" />
+            android:text="กลับ"
+            tools:ignore="HardcodedText" />
 
         <Button
             android:id="@+id/addbtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="left"
+            android:background="@color/black"
             android:layout_marginLeft="50dp"
-            android:text="CYF Property" />
+            android:text="Box Register"
+            tools:ignore="HardcodedText" />
 
     </FrameLayout>
 
