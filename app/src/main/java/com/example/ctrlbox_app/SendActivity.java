@@ -29,7 +29,7 @@ public class SendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
-        String[] get_from_List = {"STU","VWX","YZA","DDD","FFF","GGG"};
+        String[] get_from_List = {"AILING","CVM","EZP","HK","KMK","NCV","NYC","RJ","SAN-EN","SJE","SJR","SP","STD","TEP","TISCO","ท-20-20"};
 
         RetrofitAPI retrofitAPI;
         Button backbtn,btn_out;

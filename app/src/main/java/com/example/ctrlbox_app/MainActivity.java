@@ -119,9 +119,10 @@ public class MainActivity extends AppCompatActivity {
 
                     String check = num_BoxId;
                     int count = check.length();
-                    int pattern = 10;
-
-                    if (count == pattern) {
+                    Log.d("Mainactivity","logcount"+ count);
+                    int pattern = 25;
+                  //  boolean match = check.matches(" [A-Za-z]{3}\\d{6}-\\d{3}-\\d{3}[-]\\d{7}");
+                    if (count <= pattern) {
 
                         btn_in.setVisibility(View.INVISIBLE);
                         btn_out.setVisibility(View.INVISIBLE);
