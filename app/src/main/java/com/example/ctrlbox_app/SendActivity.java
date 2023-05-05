@@ -29,7 +29,7 @@ public class SendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
-        String[] get_from_List = {"AILING","CVM","EZP","HK","KMK","NCV","NYC","RJ","SAN-EN","SJE","SJR","SP","STD","TEP","TISCO","ท-20-20"};
+        String[] vendorlist = {};
 
         RetrofitAPI retrofitAPI;
         Button backbtn,btn_out;
@@ -59,9 +59,17 @@ public class SendActivity extends AppCompatActivity {
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
         String datetime = iso8601Format.format(calendar.getTime());
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_activated_1, get_from_List);
-        spn_event.setAdapter(adapter);
+        if(vendorlist != null && vendorlist.size() > 0){
+            String[] vendors = new String[vendorlist.size()];
+            for(int i = 0; i < vendorlist.size(); i++){
+                vendors[i] = vendorlist.get.getVendor();
+
+        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(SendActivity.this, android.R.layout.simple_list_item_activated_1, vendors);
+
+                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_activated_1);
+                spn_event.setAdapter(spinnerArrayAdapter);
+            }
+        }
 
         Intent rec = getIntent();
         String boxid = rec.getStringExtra("num_BoxId");
@@ -96,13 +104,13 @@ public class SendActivity extends AppCompatActivity {
                 status.setText("Out");
                 date.setText(datetime);
                 Log.d("SendActiviy","logid 1"+ boxid);
-                updateBoxTrans(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
+                //updateBoxTrans(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
                 addLogBox(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
                 btn_out.setVisibility(View.INVISIBLE);
             }
 
             public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-                Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+                Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor);
 
                 Call<List<Datamodels>> call3 = retrofitAPI.updateBoxTrans(boxid,modal_updateBoxTrans);
                 call3.enqueue(new Callback<List<Datamodels>>() {
@@ -118,8 +126,9 @@ public class SendActivity extends AppCompatActivity {
                 });
             }
             public void  addLogBox(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-                Datamodels datamodels = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+                Datamodels datamodels = new Datamodels(BoxId, Vendor);
                 Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
+
                 call6.enqueue(new Callback<Datamodels>() {
                     @Override
                     public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
@@ -132,6 +141,22 @@ public class SendActivity extends AppCompatActivity {
                     }
                 });
 
+            }
+
+            public void getVendor(String Vendor, String VendorName){
+                 Datamodels datamodels_vendors = new Datamodels(Vendor,VendorName);
+                Call<List<Datamodels_Vendors>> call8 = retrofitAPI.getAllVendor();
+                call8.enqueue(new Callback<List<Datamodels_Vendors>>() {
+                    @Override
+                    public void onResponse(Call<List<Datamodels_Vendors>> call, Response<List<Datamodels_Vendors>> response) {
+
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Datamodels_Vendors>> call, Throwable t) {
+
+                    }
+                });
             }
         });
     }

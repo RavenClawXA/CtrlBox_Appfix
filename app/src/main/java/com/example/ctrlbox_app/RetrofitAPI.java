@@ -1,5 +1,7 @@
 package com.example.ctrlbox_app;
 
+import com.google.firebase.crashlytics.buildtools.Obfuscator;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -8,6 +10,7 @@ import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
@@ -39,8 +42,8 @@ public interface RetrofitAPI {
         Call<Datamodels_addBoxCtrl> del_TB(@Path("id") String BoxId);  */
 
         //-----------BoxTrans---------------//
-        @GET("BoxTrans/get")
-        Call<List<Datamodels>> getAllBoxTrans();
+        @GET("LogBox/getlast/{id}")
+        Call<List<Datamodels>> getActiveLogbox(@Path("id") String BoxId);
 
         @PUT("BoxTrans/update/{id}")
         Call<List<Datamodels>> updateBoxTrans(@Path("id") String BoxId, @Body Datamodels datamodels);
@@ -57,4 +60,8 @@ public interface RetrofitAPI {
         //-----------LogBox-----------------//
         @POST("LogBox/add")
         Call<Datamodels> addLogBox(@Body Datamodels datamodels);
+
+        //-----------Vendor-----------------//
+        @GET("Vendor/get")
+        Call<List<Datamodels_Vendors>> getAllVendor();
 }

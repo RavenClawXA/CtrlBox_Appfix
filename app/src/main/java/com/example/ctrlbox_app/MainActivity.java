@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,6 +25,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MainActivity extends AppCompatActivity {
     private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, sendto,textVendor,textTo;
+
+    private ImageView box_img;
     private RetrofitAPI retrofitAPI;
     private Button btn_in;
     private Button btn_out;
@@ -44,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         txt_result_update = findViewById(R.id.txt_result_update);
         sendto = findViewById(R.id.sendto);
-
+        box_img = findViewById(R.id.imagebox);
         TextView timeTextView = findViewById(R.id.clockView);
         TimeClock timeClock = new TimeClock(timeTextView);
         timeClock.start();
@@ -73,8 +76,9 @@ public class MainActivity extends AppCompatActivity {
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
         retrofitAPI = retrofit.create(RetrofitAPI.class);
-        Call<List<Datamodels>> call = retrofitAPI.getAllBoxTrans();
-        call.enqueue(new Callback<List<Datamodels>>() {
+        Call<List<Datamodels>> call = retrofitAPI.getActiveLogbox(num_BoxId);
+
+        call.enqueue(new Callback <List<Datamodels>>() {
             @Override
             public void onResponse(@NonNull Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
                 if (!response.isSuccessful()) {
@@ -83,25 +87,32 @@ public class MainActivity extends AppCompatActivity {
                 }
                 List<Datamodels> datamodels = response.body();
 
-                Datamodels foundDatamodel = null;
-                for (Datamodels get : datamodels) {
-                    Log.d("", "Logcess51 " + get.getBoxId() + " " + get.getVendor() + " " + get.getTransDate() + " " + get.getTransType());
-                    if (get.getBoxId().equals(num_BoxId)) {
-                        foundDatamodel = get;
-                        break;
-                    }
+                Datamodels foundDatamodel ;
+                   // Log.d("", "Logcess51 " + get.getBoxId() + " " + get.getVendor() + " " + get.getTransDate() + " " + get.getTransType());
+                    foundDatamodel = (Datamodels) datamodels;
 
-                }
                 if (foundDatamodel != null) {
                     Log.d("", "Logcess52 " + "1");
                     txt_date.setText(foundDatamodel.getTransDate());
                     txt_status.setText(foundDatamodel.getTransType());
-                    if(foundDatamodel.getTransType().equals("In")) {
+                    if(foundDatamodel.getTransType().equals("In") || foundDatamodel.getTransType().equals("Out") && foundDatamodel.getVendor().equals("CYF")) {
                         textVendor.setText(foundDatamodel.getVendor());
-                        textTo.setText(foundDatamodel.getGetFrom());
-                        btn_add.setVisibility(View.INVISIBLE);
+                       // textTo.setText(foundDatamodel.getGetFrom());
+                        if(foundDatamodel.getTransType().equals("In")){
+                            textTo.setText(foundDatamodel.getGetFrom());
+                            btn_add.setVisibility(View.INVISIBLE);
+                            btn_in.setVisibility(View.INVISIBLE);
+                            sendto.setText("GetFrom :");
+                        }
+                        if(foundDatamodel.getTransType().equals("Out")){
+                            textTo.setText(foundDatamodel.getSendTo());
+                            btn_add.setVisibility(View.INVISIBLE);
+                            btn_out.setVisibility(View.INVISIBLE);
+                            sendto.setText("Sendto :");
+                        }
+                        /*btn_add.setVisibility(View.INVISIBLE);
                         btn_in.setVisibility(View.INVISIBLE);
-                        sendto.setText("GetFrom :");
+                        sendto.setText("GetFrom :");*/
 
                     }else {
                         textVendor.setText(foundDatamodel.getVendor());
@@ -109,8 +120,8 @@ public class MainActivity extends AppCompatActivity {
                         btn_add.setVisibility(View.INVISIBLE);
                         btn_out.setVisibility(View.INVISIBLE);
                         sendto.setText("Send To :");
-
                     }
+
                 } else {
                     Log.d("", "Logcess52 " + "0");
                     btn_in.setVisibility(View.INVISIBLE);
@@ -141,6 +152,16 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        box_img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MainActivity.this,Boxtable.class);
+                intent.putExtra("Boxtablid",num_BoxId);
+                startActivity(intent);
+                finish();
+            }
+        });
+
         bbtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -154,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                     txt_status.setText("In");
                     txt_date.setText(datetime);
-                    updateBoxTrans(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
+                   //updateBoxTrans(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
                     Log.d("Mainactivity","text"+textTo.getText()+textVendor.getText());
                     addLogBox(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
                     btn_in.setVisibility(View.INVISIBLE);
@@ -184,15 +205,16 @@ public class MainActivity extends AppCompatActivity {
                 txt_status.setText("In");
                 txt_date.setText(datetime);
                 addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");
-                addBoxTrans(txt_boxid.getText().toString(),"CYF","CYF", "-", txt_date.getText().toString(), txt_status.getText().toString());
+               // addBoxTrans(txt_boxid.getText().toString(),"CYF","CYF", "-", txt_date.getText().toString(), txt_status.getText().toString());
                 btn_add.setVisibility(View.INVISIBLE);
+               btn_out.setVisibility(View.VISIBLE);
             }
         });
     }
 
     //-------------------------------------Button Update---------------------------------------------------//
     public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-        Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+        Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor);
         final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
         Call<List<Datamodels>> call3 = retrofitAPI.updateBoxTrans(num_BoxId,modal_updateBoxTrans);
         call3.enqueue(new Callback<List<Datamodels>>() {
@@ -226,7 +248,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-        Datamodels datamodels = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+        Datamodels datamodels = new Datamodels(BoxId, Vendor);
         Call<Datamodels> call5 = retrofitAPI.addBoxTrans(datamodels);
         call5.enqueue(new Callback<Datamodels>() {
             @Override
@@ -242,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  addLogBox(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-        Datamodels datamodels = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+        Datamodels datamodels = new Datamodels(BoxId, Vendor);
         Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
         call6.enqueue(new Callback<Datamodels>() {
             @Override

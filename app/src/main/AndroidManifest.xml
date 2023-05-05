@@ -15,14 +15,20 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".Addvendor"
+            android:exported="false" />
+        <activity
+            android:name=".Boxtable"
+            android:exported="false" />
+        <activity
             android:name=".SendActivity"
             android:exported="false" />
         <activity
             android:name=".TimeClock"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name=".MainActivity"
-            android:exported="false"></activity>
+            android:exported="false" />
         <activity
             android:name="com.journeyapps.barcodescanner.CaptureActivity"
             android:screenOrientation="portrait"
