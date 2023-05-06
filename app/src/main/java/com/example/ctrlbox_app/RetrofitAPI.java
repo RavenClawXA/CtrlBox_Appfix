@@ -64,4 +64,7 @@ public interface RetrofitAPI {
         //-----------Vendor-----------------//
         @GET("Vendor/get")
         Call<List<Datamodels_Vendors>> getAllVendor();
+
+        @POST("Vendor/add")
+        Call<Datamodels_Vendors> addVendor(@Body Datamodels_Vendors datamodels_vendors);
 }

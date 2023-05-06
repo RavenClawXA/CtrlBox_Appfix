@@ -7,9 +7,11 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Calendar;
@@ -29,26 +31,27 @@ public class SendActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send);
 
-        String[] vendorlist = {};
+        //String[] vendorlist = {};
 
+        ImageView truck;
         RetrofitAPI retrofitAPI;
-        Button backbtn,btn_out;
+        Button backbtn, btn_out;
         Spinner spn_event;
-        TextView date, status,txt_result_update,txt_result_add_log,textVendor,event;
+        TextView date, status, txt_result_update, txt_result_add_log, textVendor, event;
 
         date = findViewById(R.id.text_date);
         status = findViewById(R.id.text_status);
         spn_event = findViewById(R.id.spinner_event);
-        txt_result_update = findViewById(R.id.txt_result_update);
+        //txt_result_update = findViewById(R.id.txt_result_update);
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         textVendor = findViewById(R.id.textVendor);
         event = findViewById(R.id.event);
 
-        backbtn =findViewById(R.id.backbtn);
+        backbtn = findViewById(R.id.backbtn);
         backbtn.setBackground(getDrawable(R.drawable.button_color));
         btn_out = findViewById(R.id.btn_out);
         btn_out.setBackground(getDrawable(R.drawable.button_color));
-
+        truck = findViewById(R.id.truck);
 
         TextView timeTextView = findViewById(R.id.clockView);
         TimeClock timeClock = new TimeClock(timeTextView);
@@ -59,21 +62,18 @@ public class SendActivity extends AppCompatActivity {
         SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
         String datetime = iso8601Format.format(calendar.getTime());
 
-        if(vendorlist != null && vendorlist.size() > 0){
-            String[] vendors = new String[vendorlist.size()];
-            for(int i = 0; i < vendorlist.size(); i++){
-                vendors[i] = vendorlist.get.getVendor();
-
-        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<String>(SendActivity.this, android.R.layout.simple_list_item_activated_1, vendors);
-
-                spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_activated_1);
-                spn_event.setAdapter(spinnerArrayAdapter);
-            }
-        }
-
         Intent rec = getIntent();
         String boxid = rec.getStringExtra("num_BoxId");
         String vendor = rec.getStringExtra("Vendor");
+
+        truck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(SendActivity.this,Addvendor.class);
+                startActivity(intent);
+            }
+        });
+
 
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
@@ -82,83 +82,91 @@ public class SendActivity extends AppCompatActivity {
                 .build();
         retrofitAPI = retrofit.create(RetrofitAPI.class);
 
-        textVendor.setText(vendor);
-        event.setText("Sendto :");
-
-        backbtn.setOnClickListener(new View.OnClickListener() {
+        Call<List<Datamodels_Vendors>> call8 = retrofitAPI.getAllVendor();
+        call8.enqueue(new Callback<List<Datamodels_Vendors>>() {
             @Override
-            public void onClick(View view) {
-                if (btn_out.getVisibility()==View.VISIBLE) {
-                    onBackPressed();
-                }else {
-                    Intent intent = new Intent(SendActivity.this, ScanActivity.class);
-                    startActivity(intent);
+            public void onResponse(@NonNull Call<List<Datamodels_Vendors>> call, @NonNull Response<List<Datamodels_Vendors>> response) {
+                List<Datamodels_Vendors> vendorlist = response.body();
+                if (vendorlist != null && vendorlist.size() > 0) {
+                    String[] vendors = new String[vendorlist.size()];
+                    for (int i = 0; i < vendorlist.size(); i++) {
+                        vendors[i] = vendorlist.get(i).getVendor();
+
+                        ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(SendActivity.this, android.R.layout.simple_list_item_activated_1, vendors);
+
+                        spinnerArrayAdapter.setDropDownViewResource(android.R.layout.simple_list_item_activated_1);
+                        spn_event.setAdapter(spinnerArrayAdapter);
+                    }
+
                 }
 
-            }
-        });
+                textVendor.setText(vendor);
+                event.setText("Sendto :");
 
-        btn_out.setOnClickListener(new View.OnClickListener() {
+                backbtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (btn_out.getVisibility() == View.VISIBLE) {
+                            onBackPressed();
+                        } else {
+                            Intent intent = new Intent(SendActivity.this, ScanActivity.class);
+                            startActivity(intent);
+                        }
+                    }
+                });
+
+                btn_out.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        status.setText("Out");
+                        date.setText(datetime);
+                        Log.d("SendActiviy", "logid 1" + boxid);
+                        //updateBoxTrans(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
+                        addLogBox(boxid, textVendor.getText().toString(), "-", spn_event.getSelectedItem().toString(), date.getText().toString(), status.getText().toString());
+                        btn_out.setVisibility(View.INVISIBLE);
+                    }
+
+                   /* public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType) {
+                        Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor);
+
+                        Call<List<Datamodels>> call3 = retrofitAPI.updateBoxTrans(boxid, modal_updateBoxTrans);
+                        call3.enqueue(new Callback<List<Datamodels>>() {
+                            @Override
+                            public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+                                txt_result_update.setText("success updateBoxTrans: ");
+                            }
+
+                            @Override
+                            public void onFailure(Call<List<Datamodels>> call, Throwable t) {
+                                txt_result_update.setText("updateBoxTrans Error: " + t.getMessage());
+                            }
+                        });
+                    }*/
+
+                    public void addLogBox(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType) {
+                        Datamodels datamodels = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+                        Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
+
+                        call6.enqueue(new Callback<Datamodels>() {
+                            @Override
+                            public void onResponse(@NonNull Call<Datamodels> call, @NonNull Response<Datamodels> response) {
+                                txt_result_add_log.setText("AddLogBox success"); // ประกาศข้างบนยังอ่ะ
+                            }
+
+                            @Override
+                            public void onFailure(@NonNull Call<Datamodels> call, @NonNull Throwable t) {
+                                txt_result_add_log.setText("AddLogBox error: " + t.getMessage());
+                            }
+                        });
+
+                    }
+                });
+            }
+
             @Override
-            public void onClick(View view) {
-                status.setText("Out");
-                date.setText(datetime);
-                Log.d("SendActiviy","logid 1"+ boxid);
-                //updateBoxTrans(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
-                addLogBox(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
-                btn_out.setVisibility(View.INVISIBLE);
-            }
+            public void onFailure(@NonNull Call<List<Datamodels_Vendors>> call, @NonNull Throwable t) {
 
-            public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-                Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor);
-
-                Call<List<Datamodels>> call3 = retrofitAPI.updateBoxTrans(boxid,modal_updateBoxTrans);
-                call3.enqueue(new Callback<List<Datamodels>>() {
-                    @Override
-                    public void onResponse(Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
-                          txt_result_update.setText("success updateBoxTrans: ");
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Datamodels>> call, Throwable t) {
-                        txt_result_update.setText("updateBoxTrans Error: " + t.getMessage());
-                    }
-                });
-            }
-            public void  addLogBox(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-                Datamodels datamodels = new Datamodels(BoxId, Vendor);
-                Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
-
-                call6.enqueue(new Callback<Datamodels>() {
-                    @Override
-                    public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
-                        txt_result_add_log.setText("AddLogBox success"); // ประกาศข้างบนยังอ่ะ
-                    }
-
-                    @Override
-                    public void onFailure(Call<Datamodels> call, Throwable t) {
-                        txt_result_add_log.setText("AddLogBox error: " + t.getMessage());
-                    }
-                });
-
-            }
-
-            public void getVendor(String Vendor, String VendorName){
-                 Datamodels datamodels_vendors = new Datamodels(Vendor,VendorName);
-                Call<List<Datamodels_Vendors>> call8 = retrofitAPI.getAllVendor();
-                call8.enqueue(new Callback<List<Datamodels_Vendors>>() {
-                    @Override
-                    public void onResponse(Call<List<Datamodels_Vendors>> call, Response<List<Datamodels_Vendors>> response) {
-
-                    }
-
-                    @Override
-                    public void onFailure(Call<List<Datamodels_Vendors>> call, Throwable t) {
-
-                    }
-                });
             }
         });
     }
-
 }

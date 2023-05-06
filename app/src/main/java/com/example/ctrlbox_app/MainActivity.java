@@ -87,17 +87,20 @@ public class MainActivity extends AppCompatActivity {
                 }
                 List<Datamodels> datamodels = response.body();
 
-                Datamodels foundDatamodel ;
+                //Datamodels foundDatamodel = null ;
                    // Log.d("", "Logcess51 " + get.getBoxId() + " " + get.getVendor() + " " + get.getTransDate() + " " + get.getTransType());
-                    foundDatamodel = (Datamodels) datamodels;
+                    //foundDatamodel = (Datamodels) datamodels;
 
-                if (foundDatamodel != null) {
-                    Log.d("", "Logcess52 " + "1");
+                if (datamodels != null && datamodels.size()>0) {
+                    Datamodels foundDatamodel = datamodels.get(0);
+                    Log.d("", "Logcess52 " +  foundDatamodel.getBoxId() + " " + foundDatamodel.getVendor() + " " + foundDatamodel.getTransDate() + " " + foundDatamodel.getTransType());
                     txt_date.setText(foundDatamodel.getTransDate());
                     txt_status.setText(foundDatamodel.getTransType());
+
                     if(foundDatamodel.getTransType().equals("In") || foundDatamodel.getTransType().equals("Out") && foundDatamodel.getVendor().equals("CYF")) {
                         textVendor.setText(foundDatamodel.getVendor());
-                       // textTo.setText(foundDatamodel.getGetFrom());
+                        textTo.setText(foundDatamodel.getGetFrom());
+
                         if(foundDatamodel.getTransType().equals("In")){
                             textTo.setText(foundDatamodel.getGetFrom());
                             btn_add.setVisibility(View.INVISIBLE);
@@ -127,6 +130,7 @@ public class MainActivity extends AppCompatActivity {
                     btn_in.setVisibility(View.INVISIBLE);
                     btn_out.setVisibility(View.INVISIBLE);
                     textVendor.setText("CYF");
+                    sendto.setText("GetFrom :");
 
                     String check = num_BoxId;
                     int count = check.length();
@@ -205,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
                 txt_status.setText("In");
                 txt_date.setText(datetime);
                 addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");
-               // addBoxTrans(txt_boxid.getText().toString(),"CYF","CYF", "-", txt_date.getText().toString(), txt_status.getText().toString());
+                addLogBox(txt_boxid.getText().toString(),"CYF","CYF", "-", txt_date.getText().toString(), "In");
                 btn_add.setVisibility(View.INVISIBLE);
                btn_out.setVisibility(View.VISIBLE);
             }
@@ -214,7 +218,7 @@ public class MainActivity extends AppCompatActivity {
 
     //-------------------------------------Button Update---------------------------------------------------//
     public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-        Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor);
+        Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor,GetFrom, SendTo, TransDate,TransType);
         final String num_BoxId = (getIntent().getStringExtra("ScannedData"));
         Call<List<Datamodels>> call3 = retrofitAPI.updateBoxTrans(num_BoxId,modal_updateBoxTrans);
         call3.enqueue(new Callback<List<Datamodels>>() {
@@ -248,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void addBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-        Datamodels datamodels = new Datamodels(BoxId, Vendor);
+        Datamodels datamodels = new Datamodels(BoxId, Vendor,GetFrom,SendTo, TransDate, TransType);
         Call<Datamodels> call5 = retrofitAPI.addBoxTrans(datamodels);
         call5.enqueue(new Callback<Datamodels>() {
             @Override
@@ -264,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  addLogBox(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType){
-        Datamodels datamodels = new Datamodels(BoxId, Vendor);
+        Datamodels datamodels = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
         Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
         call6.enqueue(new Callback<Datamodels>() {
             @Override

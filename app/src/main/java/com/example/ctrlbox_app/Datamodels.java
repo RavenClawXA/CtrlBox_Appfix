@@ -8,7 +8,7 @@ public class Datamodels {
     private  String TransDate;
     private String TransType ;
 
-    public Datamodels(String BoxId, String Vendor) {
+    public Datamodels(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType ) {
 
         //String object =  "{\"BoxId\":\"1222\",\"Vendor\",\"VendorName\",\"Trandate\"}";
         this.BoxId = BoxId;

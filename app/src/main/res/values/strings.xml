@@ -7,4 +7,6 @@
     <string name="FromVendor">Vendor :</string>
     <string name="Sendto">Sendto :</string>
     <string name="เวลาและวันที่">Date</string>
+    <string name="เพิ่มVendor">เพิ่มVendor</string>
+
 </resources>
