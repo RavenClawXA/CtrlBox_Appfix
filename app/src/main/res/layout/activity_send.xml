@@ -44,7 +44,7 @@
         android:paddingBottom="15dp">
 
         <ImageView
-            android:id="@+id/truck"
+            android:id="@+id/truckimage"
             android:layout_width="70dp"
             android:layout_height="70dp"
             android:contentDescription="TODO"
@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="17dp"
-            android:layout_toRightOf="@+id/truck"
+            android:layout_toRightOf="@+id/truckimage"
             android:text="@string/FromVendor"
             android:textSize="15sp" />
 
@@ -75,7 +75,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20sp"
             android:layout_marginTop="51dp"
-            android:layout_toRightOf="@+id/truck"
+            android:layout_toRightOf="@+id/truckimage"
 
             android:textSize="16sp" />
 

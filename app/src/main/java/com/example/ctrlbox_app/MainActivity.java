@@ -181,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                     txt_date.setText(datetime);
                    //updateBoxTrans(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
                     Log.d("Mainactivity","text"+textTo.getText()+textVendor.getText());
-                    addLogBox(txt_boxid.getText().toString(),textTo.getText().toString(),textVendor.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
+                    addLogBox(txt_boxid.getText().toString(),textVendor.getText().toString(),textTo.getText().toString(),"-",txt_date.getText().toString(),txt_status.getText().toString());
                     btn_in.setVisibility(View.INVISIBLE);
             }
         });
@@ -208,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
                 txt_status.setText("In");
                 txt_date.setText(datetime);
+                textTo.setText("CYF");
                 addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");
                 addLogBox(txt_boxid.getText().toString(),"CYF","CYF", "-", txt_date.getText().toString(), "In");
                 btn_add.setVisibility(View.INVISIBLE);

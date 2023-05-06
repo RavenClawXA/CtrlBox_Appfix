@@ -24,7 +24,11 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class SendActivity extends AppCompatActivity {
-
+    ImageView truck_imageC;
+    RetrofitAPI retrofitAPI;
+    Button backbtn, btn_out;
+    Spinner spn_event;
+    TextView date, status, txt_result_update, txt_result_add_log, textVendor, event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,12 +36,6 @@ public class SendActivity extends AppCompatActivity {
         setContentView(R.layout.activity_send);
 
         //String[] vendorlist = {};
-
-        ImageView truck;
-        RetrofitAPI retrofitAPI;
-        Button backbtn, btn_out;
-        Spinner spn_event;
-        TextView date, status, txt_result_update, txt_result_add_log, textVendor, event;
 
         date = findViewById(R.id.text_date);
         status = findViewById(R.id.text_status);
@@ -51,7 +49,7 @@ public class SendActivity extends AppCompatActivity {
         backbtn.setBackground(getDrawable(R.drawable.button_color));
         btn_out = findViewById(R.id.btn_out);
         btn_out.setBackground(getDrawable(R.drawable.button_color));
-        truck = findViewById(R.id.truck);
+        truck_imageC = findViewById(R.id.truckimage);
 
         TextView timeTextView = findViewById(R.id.clockView);
         TimeClock timeClock = new TimeClock(timeTextView);
@@ -65,16 +63,6 @@ public class SendActivity extends AppCompatActivity {
         Intent rec = getIntent();
         String boxid = rec.getStringExtra("num_BoxId");
         String vendor = rec.getStringExtra("Vendor");
-
-        truck.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(SendActivity.this,Addvendor.class);
-                startActivity(intent);
-            }
-        });
-
-
 
         Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
@@ -115,6 +103,15 @@ public class SendActivity extends AppCompatActivity {
                     }
                 });
 
+                truck_imageC.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(SendActivity.this,Addvendor.class);
+                        startActivity(intent);
+
+                    }
+                });
+
                 btn_out.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -125,6 +122,7 @@ public class SendActivity extends AppCompatActivity {
                         addLogBox(boxid, textVendor.getText().toString(), "-", spn_event.getSelectedItem().toString(), date.getText().toString(), status.getText().toString());
                         btn_out.setVisibility(View.INVISIBLE);
                     }
+
 
                    /* public void updateBoxTrans(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType) {
                         Datamodels modal_updateBoxTrans = new Datamodels(BoxId, Vendor);
@@ -168,5 +166,7 @@ public class SendActivity extends AppCompatActivity {
 
             }
         });
+
     }
+
 }
