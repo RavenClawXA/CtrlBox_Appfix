@@ -28,7 +28,7 @@ public class SendActivity extends AppCompatActivity {
     RetrofitAPI retrofitAPI;
     Button backbtn, btn_out;
     Spinner spn_event;
-    TextView date, status, txt_result_update, txt_result_add_log, textVendor, event;
+    TextView date, status, txt_result_update, txt_result_add_log, textVendor, event,viewVendor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +44,7 @@ public class SendActivity extends AppCompatActivity {
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         textVendor = findViewById(R.id.textVendor);
         event = findViewById(R.id.event);
+        viewVendor = findViewById(R.id.viewVendor);
 
         backbtn = findViewById(R.id.backbtn);
         backbtn.setBackground(getDrawable(R.drawable.button_color));
@@ -87,7 +88,7 @@ public class SendActivity extends AppCompatActivity {
                     }
 
                 }
-
+                viewVendor.setText("From");
                 textVendor.setText(vendor);
                 event.setText("Sendto :");
 
@@ -119,7 +120,7 @@ public class SendActivity extends AppCompatActivity {
                         date.setText(datetime);
                         Log.d("SendActiviy", "logid 1" + boxid);
                         //updateBoxTrans(boxid,textVendor.getText().toString(),"-",spn_event.getSelectedItem().toString(),date.getText().toString(),status.getText().toString());
-                        addLogBox(boxid, textVendor.getText().toString(), "-", spn_event.getSelectedItem().toString(), date.getText().toString(), status.getText().toString());
+                        addLogBox(boxid, "-", spn_event.getSelectedItem().toString(), date.getText().toString(), status.getText().toString());
                         btn_out.setVisibility(View.INVISIBLE);
                     }
 
@@ -141,8 +142,8 @@ public class SendActivity extends AppCompatActivity {
                         });
                     }*/
 
-                    public void addLogBox(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType) {
-                        Datamodels datamodels = new Datamodels(BoxId, Vendor, GetFrom, SendTo, TransDate, TransType);
+                    public void addLogBox(String BoxId, String From, String To, String TransDate, String TransType) {
+                        Datamodels datamodels = new Datamodels(BoxId, "CYF", To, TransDate, TransType);
                         Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
 
                         call6.enqueue(new Callback<Datamodels>() {

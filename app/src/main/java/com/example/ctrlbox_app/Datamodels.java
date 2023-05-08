@@ -2,17 +2,17 @@ package com.example.ctrlbox_app;
 
 public class Datamodels {
     private String BoxId;
-    private String Vendor;
+
     private  String GetFrom;
     private String SendTo;
     private  String TransDate;
     private String TransType ;
 
-    public Datamodels(String BoxId, String Vendor, String GetFrom, String SendTo, String TransDate, String TransType ) {
+    public Datamodels(String BoxId, String GetFrom, String SendTo, String TransDate, String TransType ) {
 
         //String object =  "{\"BoxId\":\"1222\",\"Vendor\",\"VendorName\",\"Trandate\"}";
         this.BoxId = BoxId;
-        this.Vendor = Vendor;
+
         this.GetFrom = GetFrom;
         this.SendTo = SendTo;
         this.TransDate = TransDate;
@@ -27,29 +27,20 @@ public class Datamodels {
         BoxId = boxId;
     }
 
-    public String getVendor() {
-        return Vendor;
-    }
-
-    public void setVendor(String vendor) {
-        Vendor = vendor;
-    }
-
     public String getGetFrom() {
         return GetFrom;
     }
 
-    public void setGetFrom(String getFrom) {
-        GetFrom = getFrom;
+    public void setGetFrom(String getGetFrom) {
+        GetFrom = getGetFrom;
     }
 
-    public String getSendTo() {
-        return SendTo;
+    public String getSendTo() {return SendTo;}
+
+    public void setSendTo(String getSendTo) {
+        SendTo = getSendTo;
     }
 
-    public void setSendTo(String sendTo) {
-        SendTo = sendTo;
-    }
 
     public String getTransDate() {
         return TransDate;
