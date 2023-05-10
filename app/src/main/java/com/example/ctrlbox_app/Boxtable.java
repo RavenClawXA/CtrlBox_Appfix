@@ -11,4 +11,6 @@ public class Boxtable extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boxtable);
     }
+    final String num_BoxId = (getIntent().getStringExtra("Boxtableid"));
+
 }

@@ -108,7 +108,11 @@ public class MainActivity extends AppCompatActivity {
                             btn_add.setVisibility(View.INVISIBLE);
                             btn_in.setVisibility(View.INVISIBLE);
                             viewVendor.setText("Vendor");
-                            sendto.setText("GetFrom :");
+                           sendto.setText("GetFrom :");
+                           if(btn_add.getVisibility() == View.INVISIBLE){
+                               sendto.setVisibility(View.INVISIBLE);
+                               textTo.setVisibility(View.INVISIBLE);
+                           }
                         }
                         if (foundDatamodel.getTransType().equals("Out")){
                             textVendor.setText(foundDatamodel.getSendTo());
@@ -166,7 +170,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this,Boxtable.class);
-                intent.putExtra("Boxtablid",num_BoxId);
+                intent.putExtra("Boxtableid",num_BoxId);
                 startActivity(intent);
                 finish();
             }
