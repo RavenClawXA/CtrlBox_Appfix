@@ -61,6 +61,9 @@ public interface RetrofitAPI {
         @POST("LogBox/add")
         Call<Datamodels> addLogBox(@Body Datamodels datamodels);
 
+        @GET("LogBox/get/{id}")
+       Call<List<Datamodels>> getLogById(@Path("id") String BoxId);
+
         //-----------Vendor-----------------//
         @GET("Vendor/get")
         Call<List<Datamodels_Vendors>> getAllVendor();

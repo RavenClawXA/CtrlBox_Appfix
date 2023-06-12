@@ -26,13 +26,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MainActivity extends AppCompatActivity {
     private TextView txt_boxid, txt_date,txt_status, txt_result_add, txt_result_add_log, txt_result_update, sendto,textVendor,textTo,viewVendor;
 
-    private ImageView box_img;
     private RetrofitAPI retrofitAPI;
     private Button btn_in;
     private Button btn_out;
     private Button btn_add;
-    private Button bbtn ;
-    @SuppressLint("MissingInflatedId")
+
+    @SuppressLint({"MissingInflatedId", "UseCompatLoadingForDrawables"})
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         txt_result_add_log = findViewById(R.id.txt_result_add_log);
         txt_result_update = findViewById(R.id.txt_result_update);
         sendto = findViewById(R.id.sendto);
-        box_img = findViewById(R.id.imagebox);
+        ImageView box_img = findViewById(R.id.imagebox);
         TextView timeTextView = findViewById(R.id.clockView);
         TimeClock timeClock = new TimeClock(timeTextView);
         timeClock.start();
@@ -58,11 +57,11 @@ public class MainActivity extends AppCompatActivity {
 
         Calendar calendar;
         calendar = Calendar.getInstance();
-        SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat iso8601Format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss'Z'");
         String datetime = iso8601Format.format(calendar.getTime());
 
 
-        bbtn = findViewById(R.id.Backbtn);
+        Button bbtn = findViewById(R.id.Backbtn);
         bbtn.setBackground(getDrawable(R.drawable.button_color));
         btn_in = findViewById(R.id.btn_in);
         btn_in.setBackground(getDrawable(R.drawable.button_color));
@@ -72,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         btn_add.setBackground(getDrawable(R.drawable.button_color));
 
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://49.0.65.4:3002/ctrl/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -80,8 +79,9 @@ public class MainActivity extends AppCompatActivity {
         Call<List<Datamodels>> call = retrofitAPI.getActiveLogbox(num_BoxId);
 
         call.enqueue(new Callback <List<Datamodels>>() {
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onResponse(@NonNull Call<List<Datamodels>> call, Response<List<Datamodels>> response) {
+            public void onResponse(@NonNull Call<List<Datamodels>> call, @NonNull Response<List<Datamodels>> response) {
                 if (!response.isSuccessful()) {
                     txt_result_add.setText("Code " + response.code());
                     return;
@@ -153,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
                         btn_out.setVisibility(View.INVISIBLE);
                     } else {
                         Log.d("", "Logcess52 " + "0");
-                        Toast.makeText(MainActivity.this, "Box data is empty Reject", Toast.LENGTH_LONG).show();
+                                Toast.makeText(MainActivity.this, "Box data is empty Reject", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(MainActivity.this, ScanActivity.class);
                         startActivity(intent);
                         finish();
@@ -161,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
             @Override
-            public void onFailure(Call<List<Datamodels>> call, Throwable t) {
+            public void onFailure(@NonNull Call<List<Datamodels>> call, Throwable t) {
                 txt_result_add.setText(t.getMessage());
             }
         });
@@ -196,34 +196,28 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        btn_out.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btn_out.setOnClickListener(view -> {
 
-                Intent intent = new Intent(MainActivity.this, SendActivity.class);
-                intent.putExtra("num_BoxId",txt_boxid.getText().toString());
-                intent.putExtra("Vendor",textVendor.getText().toString());
-                startActivity(intent);
+            Intent intent = new Intent(MainActivity.this, SendActivity.class);
+            intent.putExtra("num_BoxId",txt_boxid.getText().toString());
+            intent.putExtra("Vendor",textVendor.getText().toString());
+            startActivity(intent);
 
 //                txt_status.setText("Out");
 //                txt_date.setText(datetime);
 //                updateBoxTrans(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),"-",spn_event.getSelectedItem().toString(),txt_date.getText().toString(),txt_status.getText().toString());
 //                addLogBox(txt_boxid.getText().toString(),spn_vendor.getSelectedItem().toString(),"-",spn_event.getSelectedItem().toString(),txt_date.getText().toString(),txt_status.getText().toString());
 //                btn_out.setVisibility(View.INVISIBLE);
-             }
-        });
+         });
 
-        btn_add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                txt_status.setText("In");
-                txt_date.setText(datetime);
-                textTo.setText("CYF");
-                addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");
-                addLogBox(txt_boxid.getText().toString(),"CYF","CYF", txt_date.getText().toString(),"In");
-                btn_add.setVisibility(View.INVISIBLE);
-               btn_out.setVisibility(View.VISIBLE);
-            }
+        btn_add.setOnClickListener(v -> {
+            txt_status.setText("In");
+            txt_date.setText(datetime);
+            textTo.setText("CYF");
+            addBoxCtrl(txt_boxid.getText().toString(),"CYF","CYF");
+            addLogBox(txt_boxid.getText().toString(),"CYF","CYF", txt_date.getText().toString(),"In");
+            btn_add.setVisibility(View.INVISIBLE);
+           btn_out.setVisibility(View.VISIBLE);
         });
     }
 
@@ -282,13 +276,15 @@ public class MainActivity extends AppCompatActivity {
         Datamodels datamodels = new Datamodels(BoxId, GetFrom, SendTo, TransDate, TransType);
         Call<Datamodels> call6 = retrofitAPI.addLogBox(datamodels);
         call6.enqueue(new Callback<Datamodels>() {
+            @SuppressLint("SetTextI18n")
             @Override
             public void onResponse(Call<Datamodels> call, Response<Datamodels> response) {
                 txt_result_add_log.setText("AddLogBox success");
             }
 
+            @SuppressLint("SetTextI18n")
             @Override
-            public void onFailure(Call<Datamodels> call, Throwable t) {
+            public void onFailure(@NonNull Call<Datamodels> call, @NonNull Throwable t) {
                 txt_result_add_log.setText("AddLogBox error: " + t.getMessage());
             }
         });

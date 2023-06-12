@@ -65,7 +65,7 @@ public class SendActivity extends AppCompatActivity {
         String boxid = rec.getStringExtra("num_BoxId");
         String vendor = rec.getStringExtra("Vendor");
 
-        Retrofit retrofit = new Retrofit.Builder().baseUrl("http://192.168.10.114:5000/api/")
+        Retrofit retrofit = new Retrofit.Builder().baseUrl("http:/49.0.65.4:3002/ctrl/")
                 .addConverterFactory(new NullOnEmptyConverterFactory())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
