@@ -9,6 +9,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
@@ -22,13 +24,22 @@ public class Boxtable extends AppCompatActivity {
 
     private RetrofitAPI retrofitAPI;
     TextView boxId ;
+    private List<Datamodels> boxlist;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_boxtable);
 
         boxId = findViewById(R.id.text_boxid);
-        TableLayout tableLayout = findViewById(R.id.tableLayout);
 
+             //TableLayout tableLayout = findViewById(R.id.recyclerViewList);
+
+            RecyclerView recyclerView = findViewById(R.id.recyclerViewList);
+
+            TableViewAdapter adapter = new TableViewAdapter(boxlist);
+
+            LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+            recyclerView.setLayoutManager(linearLayoutManager);
+             recyclerView.setAdapter(adapter);
 
         Intent rec = getIntent();
         String boxtableid = rec.getStringExtra("Boxtableid");
@@ -77,7 +88,7 @@ public class Boxtable extends AppCompatActivity {
                             row.addView(TransDate);
                             row.addView(TransType);
 
-                            tableLayout.addView(row);
+                            //tableLayout.addView(row);
                         }
                 }
 

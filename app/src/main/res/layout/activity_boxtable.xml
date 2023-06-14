@@ -1,107 +1,74 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
-
-    <LinearLayout android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginLeft="15dp">
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <TextView
+            android:id="@+id/logid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@drawable/textview_borderblue"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
+            android:layout_marginTop="20dp"
             android:text="Boxid Log"
             android:textColor="@color/white"
-            android:textSize="20sp">
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent" >
+
         </TextView>
 
-    </LinearLayout>
-
-    <LinearLayout android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="15dp"
-        tools:viewBindingIgnore="true">
-
         <TextView
+            android:id="@+id/logtext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
+            android:layout_marginTop="10dp"
             android:paddingRight="10dp"
-            android:text="Boxid: "
-            android:textSize="20sp">
+            android:text="Boxid:"
+            android:gravity="center"
+            android:textSize="20sp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/logid">
+
         </TextView>
+
         <TextView
             android:id="@+id/text_boxid"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20sp">
+            android:textSize="15sp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_marginRight="10dp"
+            app:layout_constraintLeft_toRightOf="@+id/logtext"
+            app:layout_constraintTop_toBottomOf="@+id/logid">
 
         </TextView>
-    </LinearLayout>
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_gravity="center"
+    <HorizontalScrollView
+        android:id="@+id/horizontalScrollView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp">
+        android:layout_height="match_parent"
+        >
 
-    <TableRow
-        android:layout_marginTop="20dp"
-        android:layout_gravity="center"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewList"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:nestedScrollingEnabled="false"
+           android:layout_marginTop="100dp"
+            tools:listitem="@layout/table_list_item" />
 
-        <TextView
-            android:id="@+id/BoxId"
-            android:layout_gravity="center"
-            android:text="@string/BoxId"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </TextView>
-
-        <TextView
-            android:id="@+id/GetFrom"
-            android:layout_gravity="center"
-            android:text="Getfrom"
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TextView>
-        <TextView
-            android:id="@+id/sendto"
-            android:layout_gravity="center"
-            android:text="Sendto"
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TextView>
-        <TextView
-            android:id="@+id/transdate"
-            android:layout_gravity="center"
-            android:text="TransDate"
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"></TextView>
-        <TextView
-            android:id="@+id/trantype"
-            android:layout_gravity="center"
-            android:text="TransType"
-            android:layout_marginLeft="5dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-
-        </TextView>
-
-    </TableRow>
-
-    </TableLayout>
-</LinearLayout>
+    </HorizontalScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>
 
