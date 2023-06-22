@@ -22,26 +22,32 @@
         android:theme="@style/Theme.CtrlBox_App"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-
+        <activity
+            android:name=".WipActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SelectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ScanActivity"
+            android:exported="false"
+            android:theme="@style/Zxing_CaptureTheme" />
         <activity
             android:name=".TorchOnCaptureActivity"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
-            android:windowSoftInputMode="stateAlwaysHidden">
-
-        </activity>" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".AnyOrientationCaptureActivity"
             android:screenOrientation="fullSensor"
             android:stateNotNeeded="true"
             android:theme="@style/zxing_CaptureTheme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
-        <activity android:name=".Boxtable"
-            android:screenOrientation="landscape"
-            android:exported="false">
-        </activity>
+        <activity
+            android:name=".Boxtable"
+            android:exported="false"
+            android:screenOrientation="landscape" />
         <activity
             android:name=".Addvendor"
             android:exported="false" />
@@ -60,9 +66,8 @@
             android:stateNotNeeded="true"
             tools:replace="android:screenOrientation" />
         <activity
-            android:name=".ScanActivity"
-            android:exported="true"
-            android:theme="@style/Zxing_CaptureTheme">
+            android:name=".LoginActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

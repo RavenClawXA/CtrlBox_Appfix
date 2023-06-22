@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".WipActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="130dp"
+        android:layout_marginBottom="657dp"
+        android:text="Store Data"
+        android:textColor="@color/black"
+        android:textSize="35dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="600dp"
+        android:text="Job :"
+        android:textColor="@color/black"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="540dp"
+        android:text="Item :"
+        android:textColor="@color/black"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="480dp"
+        android:text="Quantity :"
+        android:textColor="@color/black"
+        android:textSize="25dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="420dp"
+        android:text="Name :"
+        android:textColor="@color/black"
+        android:textSize="25dp" />
+
+    <TextView
+        android:id="@+id/txt_job"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="600dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/txt_item"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="540dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <EditText
+        android:id="@+id/txt_qty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="475dp"
+        android:hint="number"
+        android:inputType="number"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <TextView
+        android:id="@+id/txt_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="160dp"
+        android:layout_marginBottom="420dp"
+        android:text=""
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+    <Button
+        android:id="@+id/btn_scanwip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginBottom="331dp"
+        android:text="Scan" />
+
+    <Button
+        android:id="@+id/btn_savewip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginBottom="331dp"
+        android:text="Save" />
+
+    <ImageView
+        android:id="@+id/Pic_View"
+        android:layout_width="218dp"
+        android:layout_height="227dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="98dp"
+        android:layout_marginEnd="98dp"
+        android:layout_marginBottom="47dp"
+         />
+
+    <TextView
+        android:id="@+id/txt_result_wip1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="33dp"
+        android:layout_marginBottom="106dp"
+        android:text="result : "
+        android:textColor="@color/black"
+        android:textSize="20dp" />
+
+
+</RelativeLayout>

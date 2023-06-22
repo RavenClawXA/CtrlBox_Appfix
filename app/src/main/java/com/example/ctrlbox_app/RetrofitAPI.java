@@ -70,4 +70,15 @@ public interface RetrofitAPI {
 
         @POST("Vendor/add")
         Call<Datamodels_Vendors> addVendor(@Body Datamodels_Vendors datamodels_vendors);
+
+        //--------------login---------------//
+        @POST("login")
+        Call<LoginResponse> login(@Body LoginRequest loginRequest);
+
+        //-----------------Wip---------------//
+        @POST("scanwip/add")
+        Call<Datamodels_Wip> PostDataWip(@Body Datamodels_Wip datamodels_wip);
+
+        @GET("scanwip/get/picture/{id}")
+        Call<List<Datamodels_Item>> GetPicture(@Path("id") String item);
 }
